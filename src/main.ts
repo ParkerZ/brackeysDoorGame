@@ -1,6 +1,7 @@
 import * as ex from "excalibur";
 import { loader } from "./resources";
-import { MainMenu } from "./mainMenu";
+import { MainMenu } from "./scenes/mainMenu";
+import { LevelManager } from "./levelManager";
 
 const engine = new ex.Engine({
   backgroundColor: ex.Color.fromHex("#b2ebf7"),
@@ -9,16 +10,10 @@ const engine = new ex.Engine({
   fixedUpdateFps: 60,
 });
 
-// Set global gravity, 800 pixels/sec^2
-// ex.Physics.acc = new ex.Vector(0, 2500);
+// keeps track of which level to load next
+const levelManager = new LevelManager();
 
-// Create global collision groups
-// ex.CollisionGroupManager.create("player");
-// ex.CollisionGroupManager.create("floor");
-// ex.CollisionGroupManager.create("items");
-// ex.CollisionGroupManager.create("tree");
-
-// title screen - level and tutorial are created in menu
+// title screen
 const menu = new MainMenu();
 
 engine.add("menu", menu);
@@ -31,6 +26,10 @@ engine.on("hidden", () => {
 });
 engine.on("visible", () => {
   engine.start();
+});
+
+engine.on("loadNextLevel", () => {
+  levelManager.loadNextLevel(engine);
 });
 
 // Start the engine
