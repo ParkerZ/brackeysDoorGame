@@ -8,6 +8,10 @@ const doorClosedFile = require("./res/doorClosed.png");
 const doorOpenFile = require("./res/doorOpen.png");
 
 const stairsFile = require("./res/stairs.png");
+const coinFile = require("./res/coin.png");
+const enemyFile = require("./res/enemy.png");
+const heartFile = require("./res/heart.png");
+const ladderFile = require("./res/ladder.png");
 
 const Resources = {
   backgroundMenu: new ex.ImageSource(bgMenuFile),
@@ -16,6 +20,10 @@ const Resources = {
   doorClosed: new ex.ImageSource(doorClosedFile),
   doorOpen: new ex.ImageSource(doorOpenFile),
   stairs: new ex.ImageSource(stairsFile),
+  coin: new ex.ImageSource(coinFile),
+  enemy: new ex.ImageSource(enemyFile),
+  heart: new ex.ImageSource(heartFile),
+  ladder: new ex.ImageSource(ladderFile),
 };
 
 const loader = new ex.Loader();
@@ -27,6 +35,10 @@ const backgroundWinSprite = Resources.backgroundWin.toSprite();
 const doorClosedSprite = Resources.doorClosed.toSprite();
 const doorOpenSprite = Resources.doorOpen.toSprite();
 const stairsSprite = Resources.stairs.toSprite();
+const coinSprite = Resources.coin.toSprite();
+const enemySprite = Resources.enemy.toSprite();
+const heartSprite = Resources.heart.toSprite();
+const ladderSprite = Resources.ladder.toSprite();
 
 for (const res in Resources) {
   loader.addResource((Resources as any)[res]);
@@ -41,4 +53,8 @@ export {
   doorClosedSprite,
   doorOpenSprite,
   stairsSprite,
+  coinSprite,
+  enemySprite,
+  heartSprite,
+  ladderSprite,
 };

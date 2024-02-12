@@ -2,6 +2,8 @@ import * as ex from "excalibur";
 import { loader } from "./resources";
 import { MainMenu } from "./scenes/mainMenu";
 import { LevelManager } from "./levelManager";
+import { Player } from "./player";
+import { AddCoinsEvent, GetHealthPotionEvent, TakeDamageEvent } from "./events";
 
 const engine = new ex.Engine({
   backgroundColor: ex.Color.fromHex("#b2ebf7"),
@@ -12,6 +14,8 @@ const engine = new ex.Engine({
 
 // keeps track of which level to load next
 const levelManager = new LevelManager();
+
+const player = new Player();
 
 // title screen
 const menu = new MainMenu();
@@ -28,8 +32,31 @@ engine.on("visible", () => {
   engine.start();
 });
 
-engine.on("loadNextLevel", () => {
+// Custom events
+engine.on("loadnextlevel", () => {
   levelManager.loadNextLevel(engine);
+});
+
+engine.on("gethealthpotion", () => {
+  player.gainHealth(1);
+});
+
+engine.on("getescapeladder", () => {
+  player.addEscapeLadder(engine);
+});
+
+engine.on("addcoins", (event) => {
+  let coinEvent = event as AddCoinsEvent;
+  if (coinEvent.type !== "addcoins") return;
+
+  player.addCoins(coinEvent.numCoins);
+});
+
+engine.on("takedamage", (event) => {
+  let damageEvent = event as TakeDamageEvent;
+  if (damageEvent.type !== "takedamage") return;
+
+  player.takeDamage(damageEvent.damage);
 });
 
 // Start the engine

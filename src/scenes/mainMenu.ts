@@ -11,11 +11,8 @@ export class MainMenu extends ex.Scene {
 
   onInitialize(engine: ex.Engine) {
     const bg = new MenuBackground(backgroundMenuSprite);
-    const door = new Door(
-      engine.halfDrawWidth,
-      (engine.halfDrawHeight / 2) * 3,
-      StairsNextLevel
-    );
+    const door = new Door(StairsNextLevel);
+    door.setPos(engine.halfDrawWidth, (engine.halfDrawHeight / 2) * 3);
 
     engine.add(bg);
     engine.add(door);

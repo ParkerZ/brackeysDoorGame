@@ -1,18 +1,36 @@
 import * as ex from "excalibur";
-import { Level1 } from "./scenes/levels/1";
-import { Level } from "./scenes/levels/level";
+import { Level1 } from "./scenes/levels/level1";
 import { WinMenu } from "./scenes/winMenu";
+import { Player } from "./player";
+import { Level2 } from "./scenes/levels/level2";
+import { Level3 } from "./scenes/levels/level3";
+import { Level4 } from "./scenes/levels/level4";
+import { Level5 } from "./scenes/levels/level5";
 
-export class LevelManager {
+export class LevelManager extends ex.Actor {
   private level: number = 0;
   private winThreshold: number = 5;
+  private player: Player;
 
-  constructor() {}
+  constructor() {
+    super();
+    this.player = new Player();
+  }
 
-  public getCurrentLevelClass(): typeof Level {
+  onInitialize(_engine: ex.Engine): void {}
+
+  public getCurrentLevelClass() {
     switch (this.level) {
       case 1:
         return Level1;
+      case 2:
+        return Level2;
+      case 3:
+        return Level3;
+      case 4:
+        return Level4;
+      case 5:
+        return Level5;
       default:
         return Level1;
     }

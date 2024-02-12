@@ -4,30 +4,25 @@ import {
   DoorContents,
   InstantiableDoorContents,
 } from "./doorContents/doorContents";
+import { DOOR_WIDTH } from "./constants";
 
-const collider = ex.Shape.Box(
-  doorClosedSprite.width,
-  doorClosedSprite.height,
-  ex.Vector.Half
-);
+const collider = ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half);
 
 export class Door extends ex.ScreenElement {
   private contents;
   private isOpen = false;
 
-  constructor(
-    x: number,
-    y: number,
-    contents?: InstantiableDoorContents<DoorContents>
-  ) {
+  constructor(contents?: InstantiableDoorContents<DoorContents>) {
     super({
-      x: x - doorClosedSprite.width / 2,
-      y: y - doorClosedSprite.height / 2,
       collider,
     });
 
-    if (contents)
-      this.contents = new contents(this.pos.x, this.pos.y, collider);
+    if (contents) this.contents = new contents();
+  }
+
+  public setPos(x: number, y: number): void {
+    this.pos = ex.vec(x - DOOR_WIDTH / 2, y - DOOR_WIDTH / 2);
+    this.contents?.setPos(x, y);
   }
 
   onInitialize(engine: ex.Engine): void {
@@ -39,15 +34,15 @@ export class Door extends ex.ScreenElement {
     });
 
     this.on("pointerup", () => {
-      console.log("up");
+      // console.log("up");
     });
 
     this.on("pointerenter", () => {
-      console.log("hover");
+      // console.log("hover");
     });
 
     this.on("pointerleave", () => {
-      console.log("off");
+      // console.log("off");
     });
   }
 
@@ -58,12 +53,13 @@ export class Door extends ex.ScreenElement {
 
     if (this.contents) {
       engine.add(this.contents);
+      this.contents.onOpen(engine);
     }
   }
 
   onEnter(engine: ex.Engine): void {
     console.log("Enter");
-    if (!this.contents) {
+    if (!this.contents || this.contents.isKilled()) {
       return;
     }
 
