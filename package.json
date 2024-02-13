@@ -13,10 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "excalibur": "0.28.1"
+    "excalibur": "^0.29.0-alpha.835"
   },
   "devDependencies": {
-    "@excaliburjs/testing": "0.25.0",
+    "@excaliburjs/testing": "0.29.0-alpha.835",
     "copy-webpack-plugin": "11.0.0",
     "ts-loader": "9.4.4",
     "typescript": "4.5.4",
