@@ -3,14 +3,20 @@ import { loader } from "./resources";
 import { MainMenu } from "./scenes/mainMenu";
 import { LevelManager } from "./levelManager";
 import { Player } from "./player";
-import { AddCoinsEvent, GetHealthPotionEvent, TakeDamageEvent } from "./events";
+import {
+  AddCoinsEvent,
+  BuyItemEvent,
+  GetHealthPotionEvent,
+  TakeDamageEvent,
+} from "./events";
 import { Level1 } from "./scenes/levels/level1";
 import { SCENE_TRANSITION_DURATION } from "./constants";
+import { ShopScene } from "./scenes/shopScene";
 
 const engine = new ex.Engine({
-  backgroundColor: ex.Color.fromHex("#b2ebf7"),
+  backgroundColor: ex.Color.fromHex("#000000"),
   width: 800,
-  height: 600,
+  height: 700,
   fixedUpdateFps: 60,
   // TODO: WebAudio.unlock to unlock audio https://excaliburjs.com/docs/loaders#loader
   suppressPlayButton: true,
@@ -39,9 +45,6 @@ engine.add("menu", {
 engine.on("hidden", () => {
   engine.stop();
 });
-// engine.on("visible", () => {
-//   engine.start();
-// });
 
 // Custom events
 engine.on("loadnextlevel", () => {
@@ -50,6 +53,10 @@ engine.on("loadnextlevel", () => {
 
 engine.on("loadfirstlevel", () => {
   player.initialize(engine);
+});
+
+engine.on("loadshop", () => {
+  levelManager.loadShop(engine);
 });
 
 engine.on("gethealthpotion", () => {
@@ -72,7 +79,7 @@ engine.on("addcoins", (event) => {
   let coinEvent = event as AddCoinsEvent;
   if (coinEvent.type !== "addcoins") return;
 
-  player.addCoins(coinEvent.numCoins);
+  player.addCoins(engine, coinEvent.numCoins);
 });
 
 engine.on("takedamage", (event) => {
@@ -82,9 +89,19 @@ engine.on("takedamage", (event) => {
   player.takeDamage(damageEvent.damage);
 });
 
-engine.on("useescapeladder", (event) => {
+engine.on("useescapeladder", () => {
   player.useLadder(engine);
   levelManager.loadNextLevel(engine);
+});
+
+engine.on("buyitem", (event) => {
+  let buyEvent = event as BuyItemEvent;
+  let scene = engine.currentScene as ShopScene;
+  if (buyEvent.type !== "buyitem") return;
+
+  player.useCoins(engine, buyEvent.cost);
+  scene.useCoins(buyEvent.cost);
+  // levelManager.useCoins(engine, buyEvent.cost);
 });
 
 // Start the engine

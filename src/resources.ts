@@ -10,11 +10,13 @@ const doorOpenFile = require("./res/doorOpen.png");
 const stairsFile = require("./res/stairs.png");
 const coinFile = require("./res/coin.png");
 const enemyFile = require("./res/enemy.png");
+const enemySmallFile = require("./res/enemySmall.png");
 const heartFile = require("./res/heart.png");
 const heartEmptyFile = require("./res/heartEmpty.png");
 const ladderFile = require("./res/ladder.png");
 const shieldFile = require("./res/shield.png");
 const keyFile = require("./res/key.png");
+const shopFile = require("./res/shop.png");
 
 const Resources = {
   backgroundMenu: new ex.ImageSource(bgMenuFile),
@@ -25,11 +27,13 @@ const Resources = {
   stairs: new ex.ImageSource(stairsFile),
   coin: new ex.ImageSource(coinFile),
   enemy: new ex.ImageSource(enemyFile),
+  enemySmall: new ex.ImageSource(enemySmallFile),
   heart: new ex.ImageSource(heartFile),
   heartEmpty: new ex.ImageSource(heartEmptyFile),
   ladder: new ex.ImageSource(ladderFile),
   shield: new ex.ImageSource(shieldFile),
   key: new ex.ImageSource(keyFile),
+  shop: new ex.ImageSource(shopFile),
 };
 
 const loader = new ex.Loader();
@@ -42,11 +46,13 @@ const doorOpenSprite = Resources.doorOpen.toSprite();
 const stairsSprite = Resources.stairs.toSprite();
 const coinSprite = Resources.coin.toSprite();
 const enemySprite = Resources.enemy.toSprite();
+const enemySmallSprite = Resources.enemySmall.toSprite();
 const heartSprite = Resources.heart.toSprite();
 const heartEmptySprite = Resources.heartEmpty.toSprite();
 const ladderSprite = Resources.ladder.toSprite();
 const shieldSprite = Resources.shield.toSprite();
 const keySprite = Resources.key.toSprite();
+const shopSprite = Resources.shop.toSprite();
 
 for (const res in Resources) {
   loader.addResource((Resources as any)[res]);
@@ -63,9 +69,11 @@ export {
   stairsSprite,
   coinSprite,
   enemySprite,
+  enemySmallSprite,
   heartSprite,
   heartEmptySprite,
   ladderSprite,
   shieldSprite,
   keySprite,
+  shopSprite,
 };

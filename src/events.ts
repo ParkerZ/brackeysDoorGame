@@ -1,16 +1,24 @@
 export type EventType =
   | "loadnextlevel"
   | "loadfirstlevel"
+  | "loadshop"
   | "gethealthpotion"
   | "getescapeladder"
   | "getshield"
   | "getkey"
   | "addcoins"
   | "takedamage"
-  | "useescapeladder";
+  | "useescapeladder"
+  | "buyitem";
 
 export class LoadNextLevelEvent {
   public type: EventType = "loadnextlevel";
+
+  constructor() {}
+}
+
+export class LoadShopEvent {
+  public type: EventType = "loadshop";
 
   constructor() {}
 }
@@ -67,4 +75,13 @@ export class UseEscapeLadderEvent {
   public type: EventType = "useescapeladder";
 
   constructor() {}
+}
+
+export class BuyItemEvent {
+  public cost: number;
+  public type: EventType = "buyitem";
+
+  constructor(cost: number) {
+    this.cost = cost;
+  }
 }

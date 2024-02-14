@@ -17,3 +17,7 @@ export function shuffleArray<T>(array: T[]): T[] {
 
   return array;
 }
+
+export function selectRandom<T>(array: T[]): T {
+  return shuffleArray(array)[0];
+}

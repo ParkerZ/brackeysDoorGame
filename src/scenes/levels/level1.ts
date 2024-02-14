@@ -5,10 +5,10 @@ import { Door } from "../../door";
 import { LoadFirstLevelEvent } from "../../events";
 
 export class Level1 extends Level {
-  constructor(options?: LevelOptions) {
+  constructor(options: LevelOptions) {
     const doors = [new Door(StairsNextLevel)];
 
-    super(doors, options);
+    super(doors, 1, options);
   }
 
   onInitialize(engine: ex.Engine) {

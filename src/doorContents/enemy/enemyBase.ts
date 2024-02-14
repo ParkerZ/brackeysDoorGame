@@ -4,8 +4,8 @@ import { DoorContents } from "../doorContents";
 import { TakeDamageEvent } from "../../events";
 
 export class EnemyBase extends DoorContents {
-  constructor(damage: number) {
-    super(TakeDamageEvent, enemySprite, damage);
+  constructor(damage: number, sprite: ex.Sprite) {
+    super(TakeDamageEvent, sprite, damage);
   }
 
   onOpen(engine: ex.Engine): void {

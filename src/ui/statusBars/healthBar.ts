@@ -1,11 +1,6 @@
 import * as ex from "excalibur";
-import {
-  heartEmptySprite,
-  heartSprite,
-  keySprite,
-  ladderSprite,
-} from "../resources";
-import { INVENTORY_ITEM_OFFSET, INVENTORY_ITEM_SPACING } from "../constants";
+import { heartEmptySprite, heartSprite } from "../../resources";
+import { INVENTORY_ITEM_SPACING } from "../../constants";
 
 export class HealthBar extends ex.ScreenElement {
   private maxHearts: number;

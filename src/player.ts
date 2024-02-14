@@ -1,12 +1,14 @@
 import * as ex from "excalibur";
-import { EscapeLadderButton } from "./inventoryItems/escapeLadderButton";
-import { KeyIcon } from "./inventoryItems/keyIcon";
+import { EscapeLadderButton } from "./ui/items/escapeLadderButton";
+import { KeyIcon } from "./ui/items/keyIcon";
 import {
   INVENTORY_ITEM_OFFSET,
   INVENTORY_ITEM_PLACEMENT_MS,
   INVENTORY_ITEM_SPACING,
 } from "./constants";
-import { HealthBar } from "./inventoryItems/healthBar";
+import { HealthBar } from "./ui/statusBars/healthBar";
+import { ShieldBar } from "./ui/statusBars/shieldBar";
+import { CoinIcon } from "./ui/items/coinIcon";
 
 export class Player extends ex.Actor {
   private isInit = false;
@@ -17,19 +19,21 @@ export class Player extends ex.Actor {
   private numKeys: number = 0;
   private numEscapeLadders: number = 0;
 
-  // TODO: these don't need undefined?
-  private escapeLadderButton: EscapeLadderButton | undefined;
-  private keyIcon: KeyIcon | undefined;
+  private escapeLadderButton: EscapeLadderButton;
+  private keyIcon: KeyIcon;
+  private coinIcon: CoinIcon;
   private healthBar: HealthBar;
+  private shieldBar: ShieldBar;
+
+  private displayIcons: (EscapeLadderButton | KeyIcon | CoinIcon)[] = [];
 
   constructor() {
     super();
     this.escapeLadderButton = new EscapeLadderButton(0, 0);
     this.keyIcon = new KeyIcon(0, 0);
+    this.coinIcon = new CoinIcon(0, 0);
     this.healthBar = new HealthBar(0, 0, this.health);
-
-    // TODO: create coins tracker - mimic key and ladder
-    // TODO: create shield tracker - mimic health
+    this.shieldBar = new ShieldBar(0, 0, this.shield);
   }
 
   public initialize(engine: ex.Engine) {
@@ -39,10 +43,16 @@ export class Player extends ex.Actor {
       ex.vec(engine.halfDrawWidth, (engine.halfDrawHeight * 7) / 4)
     );
 
-    console.log("health bar", this.healthBar.pos);
+    this.shieldBar.setPos(
+      ex.vec(
+        engine.halfDrawWidth,
+        (engine.halfDrawHeight * 7) / 4 - INVENTORY_ITEM_SPACING
+      )
+    );
 
     setTimeout(() => {
       engine.add(this.healthBar);
+      engine.add(this.shieldBar);
     }, INVENTORY_ITEM_PLACEMENT_MS);
   }
 
@@ -51,56 +61,62 @@ export class Player extends ex.Actor {
   }
 
   private setInventoryIconPositions(): void {
-    if (!this.keyIcon || !this.escapeLadderButton) {
-      return;
-    }
-
-    if (this.numKeys === 0 && this.numEscapeLadders !== 0) {
-      console.log("ORDERING LADDERS FIRST");
-
-      this.keyIcon.setPos(
+    this.displayIcons.forEach((icon, i) => {
+      icon.setPos(
         ex.vec(
-          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING,
+          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING * i,
           INVENTORY_ITEM_OFFSET
         )
       );
-      this.escapeLadderButton.setPos(
-        ex.vec(INVENTORY_ITEM_OFFSET, INVENTORY_ITEM_OFFSET)
-      );
-      return;
-    }
+    });
+  }
 
-    if (this.numKeys !== 0 && this.numEscapeLadders === 0) {
-      console.log("ORDERING KEYS FIRST");
-      this.keyIcon.setPos(ex.vec(INVENTORY_ITEM_OFFSET, INVENTORY_ITEM_OFFSET));
-      this.escapeLadderButton.setPos(
-        ex.vec(
-          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING,
-          INVENTORY_ITEM_OFFSET
-        )
-      );
-      return;
+  public addCoins(engine: ex.Engine, value: number): void {
+    this.coins += value;
+    this.coinIcon.setNumCoins(this.coins);
+
+    if (this.coins === 1) {
+      this.displayIcons.push(this.coinIcon);
+      this.setInventoryIconPositions();
+      setTimeout(() => {
+        engine.add(this.coinIcon);
+      }, INVENTORY_ITEM_PLACEMENT_MS);
     }
   }
 
-  public addCoins(value: number): void {
-    this.coins += value;
-    console.log("coins:", this.coins);
+  public useCoins(engine: ex.Engine, value: number): void {
+    this.coins -= value;
+    this.coinIcon.setNumCoins(this.coins);
+
+    if (this.coins <= 0) {
+      engine.remove(this.coinIcon);
+      setTimeout(() => {
+        this.displayIcons.splice(
+          this.displayIcons.findIndex((icon) => icon === this.coinIcon),
+          1
+        );
+        this.setInventoryIconPositions();
+      }, INVENTORY_ITEM_PLACEMENT_MS);
+    }
+  }
+
+  public getCoinIcon(): CoinIcon | undefined {
+    return this.coins ? this.coinIcon : undefined;
   }
 
   public gainHealth(value: number): void {
     this.health += value;
-    console.log("hp:", this.health);
+    this.healthBar.setCurrHearts(this.health);
   }
 
   public takeDamage(value: number): void {
     if (this.shield > 0) {
       this.shield--;
+      this.shieldBar.setCurrShields(this.shield);
     } else {
       this.health -= value;
       this.healthBar.setCurrHearts(this.health);
     }
-    console.log("hp:", this.health, "shield:", this.shield);
   }
 
   public getHealthBar(): HealthBar {
@@ -110,28 +126,30 @@ export class Player extends ex.Actor {
   public useLadder(engine: ex.Engine): void {
     this.numEscapeLadders--;
 
-    if (this.numEscapeLadders === 0 && this.escapeLadderButton) {
+    if (this.numEscapeLadders === 0) {
       engine.remove(this.escapeLadderButton);
       setTimeout(() => {
+        this.displayIcons.splice(
+          this.displayIcons.findIndex(
+            (icon) => icon === this.escapeLadderButton
+          ),
+          1
+        );
         this.setInventoryIconPositions();
       }, INVENTORY_ITEM_PLACEMENT_MS);
     }
   }
 
   public addEscapeLadder(engine: ex.Engine): void {
-    if (!this.escapeLadderButton) {
-      return;
-    }
-
     this.numEscapeLadders++;
-    console.log("numladders", this.numEscapeLadders);
 
     this.escapeLadderButton.setNumLadders(this.numEscapeLadders);
 
     if (this.numEscapeLadders === 1) {
+      this.displayIcons.push(this.escapeLadderButton);
       this.setInventoryIconPositions();
       setTimeout(() => {
-        if (this.escapeLadderButton) engine.add(this.escapeLadderButton);
+        engine.add(this.escapeLadderButton);
       }, INVENTORY_ITEM_PLACEMENT_MS);
     }
   }
@@ -142,23 +160,23 @@ export class Player extends ex.Actor {
 
   public addShield(): void {
     this.shield += 1;
-    console.log("shield:", this.shield);
+    this.shieldBar.setCurrShields(this.shield);
+  }
+
+  public getShieldBar(): ShieldBar {
+    return this.shieldBar;
   }
 
   public addKey(engine: ex.Engine): void {
-    if (!this.keyIcon) {
-      return;
-    }
-
     this.numKeys++;
-    console.log("keys:", this.numKeys);
 
     this.keyIcon.setNumKeys(this.numKeys);
 
     if (this.numKeys === 1) {
+      this.displayIcons.push(this.keyIcon);
       this.setInventoryIconPositions();
       setTimeout(() => {
-        if (this.keyIcon) engine.add(this.keyIcon);
+        engine.add(this.keyIcon);
       }, INVENTORY_ITEM_PLACEMENT_MS);
     }
   }

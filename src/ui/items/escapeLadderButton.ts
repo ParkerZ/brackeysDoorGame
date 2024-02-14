@@ -1,7 +1,8 @@
 import * as ex from "excalibur";
-import { ladderSprite } from "../resources";
-import { UseEscapeLadderEvent } from "../events";
+import { ladderSprite } from "../../resources";
+import { UseEscapeLadderEvent } from "../../events";
 
+// TODO: make base class
 export class EscapeLadderButton extends ex.ScreenElement {
   private event = new UseEscapeLadderEvent();
   private numLadders: number = 0;
