@@ -5,18 +5,9 @@ import { HealthBar } from "../ui/statusBars/healthBar";
 import { ShieldBar } from "../ui/statusBars/shieldBar";
 import { CoinIcon } from "../ui/icons/items/coinIcon";
 import { selectRandom } from "../util";
-import { HealthPotion } from "../doorContents/items/healthPotion";
-import { Shield } from "../doorContents/items/shield";
-import { Key } from "../doorContents/items/key";
-import { EscapeLadder } from "../doorContents/items/escapeLadder";
-import { Coin1 } from "../doorContents/items/coin/coin1";
 import { StairsNextLevel } from "../doorContents/stairsNextLevel";
 import { Door } from "../door";
-import {
-  DOOR_WIDTH,
-  DOOR_WIDTH_WITH_MARGIN,
-  INVENTORY_ITEM_SPACING,
-} from "../constants";
+import { DOOR_WIDTH_WITH_MARGIN } from "../constants";
 import { MenuBackground } from "../menuBackground";
 import { backgroundLevelSprite } from "../resources";
 import { LevelOptions } from "./levels/level";

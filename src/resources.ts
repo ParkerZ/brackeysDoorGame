@@ -19,7 +19,7 @@ const keyFile = require("./res/key.png");
 const shopFile = require("./res/shop.png");
 
 const livingShieldFile = require("./res/livingShield.png");
-const doorOpenerFile = require("./res/doorOpen.png");
+const doorOpenerFile = require("./res/crowbar.png");
 
 const Resources = {
   backgroundMenu: new ex.ImageSource(bgMenuFile),
