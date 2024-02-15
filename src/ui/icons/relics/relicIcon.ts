@@ -1,7 +1,7 @@
 import * as ex from "excalibur";
 import { UIIcon } from "../uiIcon";
 
-export type Relic = "livingshield" | "dooropener";
+export type Relic = "livingshield" | "dooropener" | "piggybank";
 
 export class RelicIcon extends UIIcon {
   private relic: Relic;

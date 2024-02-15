@@ -13,26 +13,4 @@ export class ShopDoorOpenerRelic extends ShopItem {
     super(new GetRelicEvent("dooropener"), doorOpenerSprite, 5, player);
     this.tooltip = new DisplayText(0, 0, DOOR_OPENER_TOOLTIP);
   }
-
-  onInitialize(engine: ex.Engine<any>): void {
-    super.onInitialize(engine);
-
-    this.on("pointerenter", () => {
-      engine.add(this.tooltip);
-    });
-
-    this.on("pointerleave", () => {
-      engine.remove(this.tooltip);
-    });
-  }
-
-  public setPos(x: number, y: number) {
-    super.setPos(x, y);
-    this.tooltip.setPos(x, y);
-  }
-
-  onBuy(engine: ex.Engine) {
-    engine.remove(this.tooltip);
-    super.onBuy(engine);
-  }
 }

@@ -18,6 +18,7 @@ import { ShopKey } from "../doorContents/items/shopItems/shopKey";
 import { ShopEscapeLadder } from "../doorContents/items/shopItems/shopEscapeLadder";
 import { ShopLivingShieldRelic } from "../doorContents/items/shopItems/shopLivingShieldRelic";
 import { ShopDoorOpenerRelic } from "../doorContents/items/shopItems/shopDoorOpenerRelic";
+import { ShopPiggyBankRelic } from "../doorContents/items/shopItems/shopPiggyBankRelic";
 
 export class ShopScene extends ex.Scene {
   protected escapeLadderButton: EscapeLadderButton | undefined;
@@ -47,7 +48,11 @@ export class ShopScene extends ex.Scene {
     const shopItems = [
       selectRandom([ShopHealthPotion, ShopShield]),
       selectRandom([ShopHealthPotion, ShopShield, ShopKey, ShopEscapeLadder]),
-      selectRandom([ShopLivingShieldRelic, ShopDoorOpenerRelic]),
+      selectRandom([
+        ShopLivingShieldRelic,
+        ShopDoorOpenerRelic,
+        ShopPiggyBankRelic,
+      ]),
     ];
 
     shopItems.forEach((ShopItem, i) => {

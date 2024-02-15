@@ -20,6 +20,7 @@ const shopFile = require("./res/shop.png");
 
 const livingShieldFile = require("./res/livingShield.png");
 const doorOpenerFile = require("./res/crowbar.png");
+const piggyBankFile = require("./res/piggybank.png");
 
 const Resources = {
   backgroundMenu: new ex.ImageSource(bgMenuFile),
@@ -41,6 +42,7 @@ const Resources = {
   // relics
   livingShield: new ex.ImageSource(livingShieldFile),
   doorOpener: new ex.ImageSource(doorOpenerFile),
+  piggyBank: new ex.ImageSource(piggyBankFile),
 };
 
 const loader = new ex.Loader();
@@ -64,6 +66,7 @@ const shopSprite = Resources.shop.toSprite();
 // relics
 const livingShieldSprite = Resources.livingShield.toSprite();
 const doorOpenerSprite = Resources.doorOpener.toSprite();
+const piggyBankSprite = Resources.piggyBank.toSprite();
 
 for (const res in Resources) {
   loader.addResource((Resources as any)[res]);
@@ -89,4 +92,5 @@ export {
   shopSprite,
   livingShieldSprite,
   doorOpenerSprite,
+  piggyBankSprite,
 };

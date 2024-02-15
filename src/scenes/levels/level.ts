@@ -13,6 +13,7 @@ import { LivingShieldIcon } from "../../ui/icons/relics/livingShieldIcon";
 import { Relic } from "../../ui/icons/relics/relicIcon";
 import { DoorOpenerIcon } from "../../ui/icons/relics/doorOpenerIcon";
 import { GetShieldEvent } from "../../events";
+import { Coin1 } from "../../doorContents/items/coin/coin1";
 
 export type LevelOptions = {
   healthBar: HealthBar;
@@ -55,8 +56,11 @@ export class Level extends ex.Scene {
 
     if (!this.doors.length || !DOOR_LAYOUTS[this.layoutIndex]) return;
 
+    this.relicIcons.forEach((icon) => {
+      this.handleRelic(engine, icon);
+    });
+
     const doorLayout = DOOR_LAYOUTS[this.layoutIndex];
-    console.log(this.doors.length, doorLayout);
     this.doors.forEach((door, i) => {
       door.setPos(
         engine.halfDrawWidth + doorLayout[i].x,
@@ -67,10 +71,6 @@ export class Level extends ex.Scene {
 
     engine.add(this.healthBar);
     engine.add(this.shieldBar);
-
-    this.relicIcons.forEach((icon) => {
-      this.handleRelic(engine, icon);
-    });
 
     if (this.escapeLadderButton) {
       engine.add(this.escapeLadderButton);
@@ -102,6 +102,11 @@ export class Level extends ex.Scene {
         break;
       case "dooropener":
         this.openRandomDoor(engine);
+        break;
+      case "piggybank":
+        this.doors = this.doors.map((door) =>
+          door.getContents() ? door : new Door(Coin1)
+        );
         break;
     }
 

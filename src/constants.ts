@@ -16,6 +16,8 @@ export const LIVING_SHIELD_TOOLTIP =
   "Stair Shield:\nGrants 1 shield each time you ascend a floor.";
 export const DOOR_OPENER_TOOLTIP =
   "Crowbar:\nOpens 1 random door every time you ascend a floor.";
+export const PIGGY_BANK_TOOLTIP =
+  "Piggy Bank:\nReplace empty doors with coins.";
 
 export const DOOR_LAYOUTS = [
   [ex.vec(0, 0)],
