@@ -6,6 +6,6 @@ import { heartSprite } from "../../../resources";
 
 export class ShopHealthPotion extends ShopItem {
   constructor(player: Player) {
-    super(GetHealthPotionEvent, heartSprite, 2, player);
+    super(new GetHealthPotionEvent(), heartSprite, 2, player);
   }
 }

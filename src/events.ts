@@ -87,3 +87,16 @@ export class GetRelicEvent {
     this.relic = relic;
   }
 }
+
+export type GameEvent =
+  | LoadNextLevelEvent
+  | LoadShopEvent
+  | LoadFirstLevelEvent
+  | GetHealthPotionEvent
+  | GetEscapeLadderEvent
+  | GetShieldEvent
+  | GetKeyEvent
+  | AddCoinsEvent
+  | TakeDamageEvent
+  | UseEscapeLadderEvent
+  | GetRelicEvent;

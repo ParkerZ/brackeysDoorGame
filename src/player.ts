@@ -11,7 +11,7 @@ import { ShieldBar } from "./ui/statusBars/shieldBar";
 import { CoinIcon } from "./ui/icons/items/coinIcon";
 import { Relic } from "./ui/icons/relics/relicIcon";
 import { LivingShieldIcon } from "./ui/icons/relics/livingShieldIcon";
-import { DoorOpenerIcon } from "./ui/icons/relics/doorOpener";
+import { DoorOpenerIcon } from "./ui/icons/relics/doorOpenerIcon";
 
 export class Player extends ex.Actor {
   private isInit = false;
@@ -67,10 +67,8 @@ export class Player extends ex.Actor {
   private setInventoryIconPositions(): void {
     this.displayIcons.forEach((icon, i) => {
       icon.setPos(
-        ex.vec(
-          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING * i,
-          INVENTORY_ITEM_OFFSET
-        )
+        INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING * i,
+        INVENTORY_ITEM_OFFSET
       );
     });
   }
@@ -78,10 +76,8 @@ export class Player extends ex.Actor {
   private setRelicIconPositions(): void {
     this.displayRelics.forEach((icon, i) => {
       icon.setPos(
-        ex.vec(
-          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING * i,
-          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING
-        )
+        INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING * i,
+        INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING
       );
     });
   }

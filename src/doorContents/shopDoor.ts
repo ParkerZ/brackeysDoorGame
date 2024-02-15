@@ -5,7 +5,7 @@ import { LoadShopEvent } from "../events";
 
 export class ShopDoor extends DoorContents {
   constructor() {
-    super(LoadShopEvent, shopSprite);
+    super(new LoadShopEvent(), shopSprite);
   }
 
   onOpen(_engine: ex.Engine): void {}

@@ -11,7 +11,7 @@ import { ShieldBar } from "../../ui/statusBars/shieldBar";
 import { CoinIcon } from "../../ui/icons/items/coinIcon";
 import { LivingShieldIcon } from "../../ui/icons/relics/livingShieldIcon";
 import { Relic } from "../../ui/icons/relics/relicIcon";
-import { DoorOpenerIcon } from "../../ui/icons/relics/doorOpener";
+import { DoorOpenerIcon } from "../../ui/icons/relics/doorOpenerIcon";
 import { GetShieldEvent } from "../../events";
 
 export type LevelOptions = {
@@ -86,9 +86,9 @@ export class Level extends ex.Scene {
   }
 
   private openRandomDoor(engine: ex.Engine): void {
-    this.doors
-      .filter((door) => door.getContents()?.getIsOpenableByRelic())[0]
-      .onOpen(engine);
+    shuffleArray(
+      this.doors.filter((door) => door.getContents()?.getIsOpenableByRelic())
+    )[0].onOpen(engine);
   }
 
   private handleRelic(

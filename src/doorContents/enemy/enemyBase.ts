@@ -7,7 +7,7 @@ export class EnemyBase extends DoorContents {
   protected isOpenableByRelic = false;
 
   constructor(damage: number, sprite: ex.Sprite) {
-    super(TakeDamageEvent, sprite, damage);
+    super(new TakeDamageEvent(damage), sprite);
   }
 
   onOpen(engine: ex.Engine): void {

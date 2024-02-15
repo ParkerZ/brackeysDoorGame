@@ -4,9 +4,7 @@ import { MainMenu } from "./scenes/mainMenu";
 import { LevelManager } from "./levelManager";
 import { Player } from "./player";
 import { AddCoinsEvent, GetRelicEvent, TakeDamageEvent } from "./events";
-import { Level1 } from "./scenes/levels/level1";
 import { SCENE_TRANSITION_DURATION } from "./constants";
-import { ShopScene } from "./scenes/shopScene";
 
 const engine = new ex.Engine({
   backgroundColor: ex.Color.fromHex("#000000"),

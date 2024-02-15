@@ -1,42 +1,36 @@
 import * as ex from "excalibur";
 import { Player } from "../../../player";
-import {
-  GetEscapeLadderEvent,
-  GetHealthPotionEvent,
-  GetKeyEvent,
-  GetRelicEvent,
-  GetShieldEvent,
-} from "../../../events";
+import { GameEvent } from "../../../events";
 import { DOOR_WIDTH } from "../../../constants";
 import { coinSprite } from "../../../resources";
+import { DisplayText } from "../../../ui/displayText";
 
 export class ShopItem extends ex.ScreenElement {
   protected event;
   private sprite;
   protected cost = 2;
   protected player: Player;
+  protected tooltip: DisplayText | undefined;
 
-  // TODO: why can't I just pass an instantiated event?
   constructor(
-    Event:
-      | typeof GetHealthPotionEvent
-      | typeof GetShieldEvent
-      | typeof GetEscapeLadderEvent
-      | typeof GetKeyEvent
-      | typeof GetRelicEvent,
+    event: GameEvent,
     sprite: ex.Sprite,
     cost: number,
     player: Player,
-    eventPayload?: any
+    tooltip?: string
   ) {
     super({
       collider: ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half),
     });
 
-    this.event = new Event(eventPayload);
+    this.event = event;
     this.sprite = sprite;
     this.cost = cost;
     this.player = player;
+
+    if (tooltip) {
+      this.tooltip = new DisplayText(0, 0, tooltip);
+    }
   }
 
   onInitialize(engine: ex.Engine<any>): void {
@@ -49,18 +43,9 @@ export class ShopItem extends ex.ScreenElement {
     const coin = coinSprite.clone();
     coin.scale = ex.vec(0.5, 0.5);
 
-    // TODO: hover is weird
     this.graphics.show(this.sprite);
     this.graphics.show(text, { offset: ex.vec(20, 150) });
     this.graphics.show(coin, { offset: ex.vec(40, 105) });
-
-    // this.on("pointerenter", () => {
-    //   console.log("hover");
-    // });
-
-    // this.on("pointerleave", () => {
-    //   console.log("off");
-    // });
 
     this.on("pointerdown", () => {
       console.log("Can I buy?", this.player.getCoins(), this.cost);
@@ -69,6 +54,18 @@ export class ShopItem extends ex.ScreenElement {
       }
 
       this.onBuy(engine);
+    });
+
+    this.on("pointerenter", () => {
+      if (this.tooltip) engine.add(this.tooltip);
+    });
+
+    this.on("pointerleave", () => {
+      if (this.tooltip) engine.remove(this.tooltip);
+    });
+
+    this.on("kill", () => {
+      if (this.tooltip) engine.remove(this.tooltip);
     });
   }
 
@@ -80,5 +77,6 @@ export class ShopItem extends ex.ScreenElement {
 
   public setPos(x: number, y: number): void {
     this.pos = ex.vec(x - DOOR_WIDTH / 2, y - DOOR_WIDTH / 2);
+    if (this.tooltip) this.tooltip.setPos(x, y);
   }
 }

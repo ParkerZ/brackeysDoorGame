@@ -7,13 +7,12 @@ export class StairsNextLevel extends DoorContents {
   protected isOpenableByRelic = false;
 
   constructor() {
-    super(LoadNextLevelEvent, stairsSprite);
+    super(new LoadNextLevelEvent(), stairsSprite);
   }
 
   onOpen(_engine: ex.Engine): void {}
 
   onEnter(engine: ex.Engine): void {
-    console.log("Enter stairs start");
     engine.emit(this.event.type);
   }
 }

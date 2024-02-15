@@ -3,9 +3,16 @@ import { Player } from "../../../player";
 import { ShopItem } from "./shopItem";
 import { GetEscapeLadderEvent } from "../../../events";
 import { ladderSprite } from "../../../resources";
+import { ESCAPE_LADDER_TOOLTIP } from "../../../constants";
 
 export class ShopEscapeLadder extends ShopItem {
   constructor(player: Player) {
-    super(GetEscapeLadderEvent, ladderSprite, 5, player);
+    super(
+      new GetEscapeLadderEvent(),
+      ladderSprite,
+      5,
+      player,
+      ESCAPE_LADDER_TOOLTIP
+    );
   }
 }

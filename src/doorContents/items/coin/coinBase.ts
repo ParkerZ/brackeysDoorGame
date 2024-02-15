@@ -5,7 +5,7 @@ import { DoorContents } from "../../doorContents";
 
 export class CoinBase extends DoorContents {
   constructor(numCoins: number) {
-    super(AddCoinsEvent, coinSprite, numCoins);
+    super(new AddCoinsEvent(numCoins), coinSprite);
   }
 
   onOpen(_engine: ex.Engine): void {}

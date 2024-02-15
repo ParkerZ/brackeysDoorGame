@@ -3,9 +3,10 @@ import { Player } from "../../../player";
 import { ShopItem } from "./shopItem";
 import { GetKeyEvent } from "../../../events";
 import { keySprite } from "../../../resources";
+import { KEY_TOOLTIP } from "../../../constants";
 
 export class ShopKey extends ShopItem {
   constructor(player: Player) {
-    super(GetKeyEvent, keySprite, 4, player);
+    super(new GetKeyEvent(), keySprite, 4, player, KEY_TOOLTIP);
   }
 }

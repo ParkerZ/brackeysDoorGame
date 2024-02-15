@@ -1,35 +1,46 @@
 import * as ex from "excalibur";
 import { DOOR_WIDTH } from "../constants";
-import { AddCoinsEvent, LoadNextLevelEvent, TakeDamageEvent } from "../events";
+import { GameEvent } from "../events";
+import { DisplayText } from "../ui/displayText";
 
 export abstract class DoorContents extends ex.ScreenElement {
   private sprite;
-  protected event;
+  protected event: GameEvent;
   protected isOpenableByRelic = true;
+  protected tooltip: DisplayText | undefined;
 
-  // TODO: something is up with these types
-  constructor(
-    Event:
-      | typeof AddCoinsEvent
-      | typeof TakeDamageEvent
-      | typeof LoadNextLevelEvent,
-    sprite: ex.Sprite,
-    value?: number
-  ) {
+  constructor(event: GameEvent, sprite: ex.Sprite, tooltip?: string) {
     super({
       collider: ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half),
     });
 
     this.sprite = sprite;
-    this.event = new Event(value ?? 1);
+    this.event = event;
+
+    if (tooltip) {
+      this.tooltip = new DisplayText(0, 0, tooltip);
+    }
   }
 
-  onInitialize(_engine: ex.Engine): void {
+  onInitialize(engine: ex.Engine): void {
     this.graphics.use(this.sprite);
+
+    this.on("pointerenter", () => {
+      if (this.tooltip) engine.add(this.tooltip);
+    });
+
+    this.on("pointerleave", () => {
+      if (this.tooltip) engine.remove(this.tooltip);
+    });
+
+    this.on("kill", () => {
+      if (this.tooltip) engine.remove(this.tooltip);
+    });
   }
 
   public setPos(x: number, y: number): void {
     this.pos = ex.vec(x - DOOR_WIDTH / 2, y - DOOR_WIDTH / 2);
+    if (this.tooltip) this.tooltip.setPos(x, y);
   }
 
   public getIsOpenableByRelic(): boolean {

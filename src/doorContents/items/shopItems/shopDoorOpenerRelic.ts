@@ -4,17 +4,14 @@ import { ShopItem } from "./shopItem";
 import { GetRelicEvent } from "../../../events";
 import { doorOpenerSprite } from "../../../resources";
 import { DisplayText } from "../../../ui/displayText";
+import { DOOR_OPENER_TOOLTIP } from "../../../constants";
 
 export class ShopDoorOpenerRelic extends ShopItem {
   protected tooltip: DisplayText;
 
   constructor(player: Player) {
-    super(GetRelicEvent, doorOpenerSprite, 5, player, "dooropener");
-    this.tooltip = new DisplayText(
-      0,
-      0,
-      "Crowbar:\nOpens 1 random door every time you ascend a floor."
-    );
+    super(new GetRelicEvent("dooropener"), doorOpenerSprite, 5, player);
+    this.tooltip = new DisplayText(0, 0, DOOR_OPENER_TOOLTIP);
   }
 
   onInitialize(engine: ex.Engine<any>): void {

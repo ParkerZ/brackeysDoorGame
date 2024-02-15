@@ -2,12 +2,13 @@ import * as ex from "excalibur";
 import { ladderSprite } from "../../../resources";
 import { UIIcon } from "../uiIcon";
 import { UseEscapeLadderEvent } from "../../../events";
+import { ESCAPE_LADDER_TOOLTIP } from "../../../constants";
 
 export class EscapeLadderButton extends UIIcon {
   private event = new UseEscapeLadderEvent();
 
   constructor(x: number, y: number) {
-    super(x, y, ladderSprite);
+    super(x, y, ladderSprite, ESCAPE_LADDER_TOOLTIP);
   }
 
   onInitialize(engine: ex.Engine): void {
