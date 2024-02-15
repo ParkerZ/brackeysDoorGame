@@ -6,6 +6,7 @@ const bgWinFile = require("./res/win.png");
 
 const doorClosedFile = require("./res/doorClosed.png");
 const doorOpenFile = require("./res/doorOpen.png");
+const doorRevealFile = require("./res/doorReveal.png");
 
 const stairsFile = require("./res/stairs.png");
 const coinFile = require("./res/coin.png");
@@ -21,6 +22,8 @@ const shopFile = require("./res/shop.png");
 const livingShieldFile = require("./res/livingShield.png");
 const doorOpenerFile = require("./res/crowbar.png");
 const piggyBankFile = require("./res/piggybank.png");
+const boneFingerFile = require("./res/boneFinger.png");
+const spyglassFile = require("./res/spyglass.png");
 
 const Resources = {
   backgroundMenu: new ex.ImageSource(bgMenuFile),
@@ -28,6 +31,7 @@ const Resources = {
   backgroundWin: new ex.ImageSource(bgWinFile),
   doorClosed: new ex.ImageSource(doorClosedFile),
   doorOpen: new ex.ImageSource(doorOpenFile),
+  doorReveal: new ex.ImageSource(doorRevealFile),
   stairs: new ex.ImageSource(stairsFile),
   coin: new ex.ImageSource(coinFile),
   enemy: new ex.ImageSource(enemyFile),
@@ -43,6 +47,8 @@ const Resources = {
   livingShield: new ex.ImageSource(livingShieldFile),
   doorOpener: new ex.ImageSource(doorOpenerFile),
   piggyBank: new ex.ImageSource(piggyBankFile),
+  boneFinger: new ex.ImageSource(boneFingerFile),
+  spyglass: new ex.ImageSource(spyglassFile),
 };
 
 const loader = new ex.Loader();
@@ -52,6 +58,7 @@ const backgroundLevelSprite = Resources.backgroundLevel.toSprite();
 const backgroundWinSprite = Resources.backgroundWin.toSprite();
 const doorClosedSprite = Resources.doorClosed.toSprite();
 const doorOpenSprite = Resources.doorOpen.toSprite();
+const doorRevealSprite = Resources.doorReveal.toSprite();
 const stairsSprite = Resources.stairs.toSprite();
 const coinSprite = Resources.coin.toSprite();
 const enemySprite = Resources.enemy.toSprite();
@@ -67,6 +74,8 @@ const shopSprite = Resources.shop.toSprite();
 const livingShieldSprite = Resources.livingShield.toSprite();
 const doorOpenerSprite = Resources.doorOpener.toSprite();
 const piggyBankSprite = Resources.piggyBank.toSprite();
+const boneFingerSprite = Resources.boneFinger.toSprite();
+const spyglassSprite = Resources.spyglass.toSprite();
 
 for (const res in Resources) {
   loader.addResource((Resources as any)[res]);
@@ -80,6 +89,7 @@ export {
   backgroundWinSprite,
   doorClosedSprite,
   doorOpenSprite,
+  doorRevealSprite,
   stairsSprite,
   coinSprite,
   enemySprite,
@@ -93,4 +103,6 @@ export {
   livingShieldSprite,
   doorOpenerSprite,
   piggyBankSprite,
+  boneFingerSprite,
+  spyglassSprite,
 };

@@ -19,6 +19,8 @@ import { ShopEscapeLadder } from "../doorContents/items/shopItems/shopEscapeLadd
 import { ShopLivingShieldRelic } from "../doorContents/items/shopItems/shopLivingShieldRelic";
 import { ShopDoorOpenerRelic } from "../doorContents/items/shopItems/shopDoorOpenerRelic";
 import { ShopPiggyBankRelic } from "../doorContents/items/shopItems/shopPiggyBankRelic";
+import { ShopDeathGripRelic } from "../doorContents/items/shopItems/shopDeathGripRelic";
+import { ShopSpyglassRelic } from "../doorContents/items/shopItems/shopSpyglassRelic";
 
 export class ShopScene extends ex.Scene {
   protected escapeLadderButton: EscapeLadderButton | undefined;
@@ -52,6 +54,8 @@ export class ShopScene extends ex.Scene {
         ShopLivingShieldRelic,
         ShopDoorOpenerRelic,
         ShopPiggyBankRelic,
+        ShopDeathGripRelic,
+        ShopSpyglassRelic,
       ]),
     ];
 

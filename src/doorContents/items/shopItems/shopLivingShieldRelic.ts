@@ -10,7 +10,7 @@ export class ShopLivingShieldRelic extends ShopItem {
     super(
       new GetRelicEvent("livingshield"),
       livingShieldSprite,
-      5,
+      6,
       player,
       LIVING_SHIELD_TOOLTIP
     );

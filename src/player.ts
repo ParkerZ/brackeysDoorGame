@@ -13,6 +13,8 @@ import { Relic } from "./ui/icons/relics/relicIcon";
 import { LivingShieldIcon } from "./ui/icons/relics/livingShieldIcon";
 import { DoorOpenerIcon } from "./ui/icons/relics/doorOpenerIcon";
 import { PiggyBankIcon } from "./ui/icons/relics/piggyBankIcon";
+import { DeathGripIcon } from "./ui/icons/relics/deathGripIcon";
+import { SpyglassIcon } from "./ui/icons/relics/spyglassIcon";
 
 export class Player extends ex.Actor {
   private isInit = false;
@@ -209,6 +211,10 @@ export class Player extends ex.Actor {
         return DoorOpenerIcon;
       case "piggybank":
         return PiggyBankIcon;
+      case "deathgrip":
+        return DeathGripIcon;
+      case "spyglass":
+        return SpyglassIcon;
       default:
         return LivingShieldIcon;
     }

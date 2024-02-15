@@ -14,6 +14,7 @@ import { Relic } from "../../ui/icons/relics/relicIcon";
 import { DoorOpenerIcon } from "../../ui/icons/relics/doorOpenerIcon";
 import { GetShieldEvent } from "../../events";
 import { Coin1 } from "../../doorContents/items/coin/coin1";
+import { EnemyBase } from "../../doorContents/enemy/enemyBase";
 
 export type LevelOptions = {
   healthBar: HealthBar;
@@ -91,6 +92,16 @@ export class Level extends ex.Scene {
     )[0].onOpen(engine);
   }
 
+  private revealRandomEnemyDoor(): void {
+    console.log(
+      "enemies",
+      this.doors.filter((door) => door.getContents() instanceof EnemyBase)
+    );
+    shuffleArray(
+      this.doors.filter((door) => door.getContents() instanceof EnemyBase)
+    )[0].onReveal();
+  }
+
   private handleRelic(
     engine: ex.Engine,
     icon: LivingShieldIcon | DoorOpenerIcon
@@ -107,6 +118,12 @@ export class Level extends ex.Scene {
         this.doors = this.doors.map((door) =>
           door.getContents() ? door : new Door(Coin1)
         );
+        break;
+      case "deathgrip":
+        this.revealRandomEnemyDoor();
+        break;
+      case "spyglass":
+        // TODO: implement
         break;
     }
 

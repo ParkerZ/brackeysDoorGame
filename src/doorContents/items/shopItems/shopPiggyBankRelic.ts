@@ -10,7 +10,7 @@ export class ShopPiggyBankRelic extends ShopItem {
   protected tooltip: DisplayText;
 
   constructor(player: Player) {
-    super(new GetRelicEvent("piggybank"), piggyBankSprite, 2, player);
+    super(new GetRelicEvent("piggybank"), piggyBankSprite, 5, player);
     this.tooltip = new DisplayText(0, 0, PIGGY_BANK_TOOLTIP);
   }
 }

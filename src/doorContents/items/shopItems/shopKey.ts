@@ -7,6 +7,6 @@ import { KEY_TOOLTIP } from "../../../constants";
 
 export class ShopKey extends ShopItem {
   constructor(player: Player) {
-    super(new GetKeyEvent(), keySprite, 4, player, KEY_TOOLTIP);
+    super(new GetKeyEvent(), keySprite, 3, player, KEY_TOOLTIP);
   }
 }

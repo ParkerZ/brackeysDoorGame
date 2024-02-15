@@ -1,5 +1,9 @@
 import * as ex from "excalibur";
-import { doorClosedSprite, doorOpenSprite } from "./resources";
+import {
+  doorClosedSprite,
+  doorOpenSprite,
+  doorRevealSprite,
+} from "./resources";
 import {
   DoorContents,
   InstantiableDoorContents,
@@ -11,9 +15,11 @@ const collider = ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half);
 export class Door extends ex.ScreenElement {
   private contents;
   private isOpen = false;
+  private isRevealed = false;
 
   constructor(contents?: InstantiableDoorContents<DoorContents>) {
     super({
+      z: 2,
       collider,
     });
 
@@ -26,7 +32,7 @@ export class Door extends ex.ScreenElement {
   }
 
   onInitialize(engine: ex.Engine): void {
-    if (!this.isOpen) {
+    if (!this.isOpen && !this.isRevealed) {
       this.graphics.use(doorClosedSprite);
     }
 
@@ -46,10 +52,19 @@ export class Door extends ex.ScreenElement {
     this.on("pointerleave", () => {
       // console.log("off");
     });
+
+    if (this.contents) {
+      engine.add(this.contents);
+    }
   }
 
   public getContents() {
     return this.contents;
+  }
+
+  public onReveal(): void {
+    this.isRevealed = true;
+    this.graphics.use(doorRevealSprite);
   }
 
   onOpen(engine: ex.Engine): void {

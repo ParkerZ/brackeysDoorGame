@@ -16,6 +16,7 @@ export class DisplayText extends ex.ScreenElement {
     super({
       x,
       y,
+      z: 3,
     });
 
     this.text = text;
