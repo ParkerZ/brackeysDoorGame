@@ -1,6 +1,6 @@
 import * as ex from "excalibur";
-import { EscapeLadderButton } from "./ui/items/escapeLadderButton";
-import { KeyIcon } from "./ui/items/keyIcon";
+import { EscapeLadderButton } from "./ui/icons/items/escapeLadderButton";
+import { KeyIcon } from "./ui/icons/items/keyIcon";
 import {
   INVENTORY_ITEM_OFFSET,
   INVENTORY_ITEM_PLACEMENT_MS,
@@ -8,7 +8,10 @@ import {
 } from "./constants";
 import { HealthBar } from "./ui/statusBars/healthBar";
 import { ShieldBar } from "./ui/statusBars/shieldBar";
-import { CoinIcon } from "./ui/items/coinIcon";
+import { CoinIcon } from "./ui/icons/items/coinIcon";
+import { Relic } from "./ui/icons/relics/relicIcon";
+import { LivingShieldIcon } from "./ui/icons/relics/livingShieldIcon";
+import { DoorOpenerIcon } from "./ui/icons/relics/doorOpener";
 
 export class Player extends ex.Actor {
   private isInit = false;
@@ -26,6 +29,7 @@ export class Player extends ex.Actor {
   private shieldBar: ShieldBar;
 
   private displayIcons: (EscapeLadderButton | KeyIcon | CoinIcon)[] = [];
+  private displayRelics: LivingShieldIcon[] = [];
 
   constructor() {
     super();
@@ -71,9 +75,20 @@ export class Player extends ex.Actor {
     });
   }
 
+  private setRelicIconPositions(): void {
+    this.displayRelics.forEach((icon, i) => {
+      icon.setPos(
+        ex.vec(
+          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING * i,
+          INVENTORY_ITEM_OFFSET + INVENTORY_ITEM_SPACING
+        )
+      );
+    });
+  }
+
   public addCoins(engine: ex.Engine, value: number): void {
     this.coins += value;
-    this.coinIcon.setNumCoins(this.coins);
+    this.coinIcon.setValue(this.coins);
 
     if (this.coins === 1) {
       this.displayIcons.push(this.coinIcon);
@@ -84,9 +99,13 @@ export class Player extends ex.Actor {
     }
   }
 
+  public getCoins(): number {
+    return this.coins;
+  }
+
   public useCoins(engine: ex.Engine, value: number): void {
     this.coins -= value;
-    this.coinIcon.setNumCoins(this.coins);
+    this.coinIcon.setValue(this.coins);
 
     if (this.coins <= 0) {
       engine.remove(this.coinIcon);
@@ -143,7 +162,7 @@ export class Player extends ex.Actor {
   public addEscapeLadder(engine: ex.Engine): void {
     this.numEscapeLadders++;
 
-    this.escapeLadderButton.setNumLadders(this.numEscapeLadders);
+    this.escapeLadderButton.setValue(this.numEscapeLadders);
 
     if (this.numEscapeLadders === 1) {
       this.displayIcons.push(this.escapeLadderButton);
@@ -170,7 +189,7 @@ export class Player extends ex.Actor {
   public addKey(engine: ex.Engine): void {
     this.numKeys++;
 
-    this.keyIcon.setNumKeys(this.numKeys);
+    this.keyIcon.setValue(this.numKeys);
 
     if (this.numKeys === 1) {
       this.displayIcons.push(this.keyIcon);
@@ -183,5 +202,32 @@ export class Player extends ex.Actor {
 
   public getKeyIcon(): KeyIcon | undefined {
     return this.numKeys ? this.keyIcon : undefined;
+  }
+
+  private getRelicIconClass(relic: Relic) {
+    switch (relic) {
+      case "livingshield":
+        return LivingShieldIcon;
+      case "dooropener":
+        return DoorOpenerIcon;
+      default:
+        return LivingShieldIcon;
+    }
+  }
+
+  public addRelic(engine: ex.Engine, relic: Relic): void {
+    const IconClass = this.getRelicIconClass(relic);
+    const relicIcon = new IconClass(0, 0);
+
+    this.displayRelics.push(relicIcon);
+    console.log("relics", this.displayRelics);
+    this.setRelicIconPositions();
+    setTimeout(() => {
+      engine.add(relicIcon);
+    }, INVENTORY_ITEM_PLACEMENT_MS);
+  }
+
+  public getRelicIcons() {
+    return this.displayRelics;
   }
 }

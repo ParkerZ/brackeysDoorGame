@@ -18,6 +18,9 @@ const shieldFile = require("./res/shield.png");
 const keyFile = require("./res/key.png");
 const shopFile = require("./res/shop.png");
 
+const livingShieldFile = require("./res/livingShield.png");
+const doorOpenerFile = require("./res/doorOpen.png");
+
 const Resources = {
   backgroundMenu: new ex.ImageSource(bgMenuFile),
   backgroundLevel: new ex.ImageSource(bgLevelFile),
@@ -34,6 +37,10 @@ const Resources = {
   shield: new ex.ImageSource(shieldFile),
   key: new ex.ImageSource(keyFile),
   shop: new ex.ImageSource(shopFile),
+
+  // relics
+  livingShield: new ex.ImageSource(livingShieldFile),
+  doorOpener: new ex.ImageSource(doorOpenerFile),
 };
 
 const loader = new ex.Loader();
@@ -53,6 +60,10 @@ const ladderSprite = Resources.ladder.toSprite();
 const shieldSprite = Resources.shield.toSprite();
 const keySprite = Resources.key.toSprite();
 const shopSprite = Resources.shop.toSprite();
+
+// relics
+const livingShieldSprite = Resources.livingShield.toSprite();
+const doorOpenerSprite = Resources.doorOpener.toSprite();
 
 for (const res in Resources) {
   loader.addResource((Resources as any)[res]);
@@ -76,4 +87,6 @@ export {
   shieldSprite,
   keySprite,
   shopSprite,
+  livingShieldSprite,
+  doorOpenerSprite,
 };

@@ -91,6 +91,7 @@ export class LevelManager extends ex.Actor {
       coinIcon: this.player.getCoinIcon(),
       healthBar: this.player.getHealthBar(),
       shieldBar: this.player.getShieldBar(),
+      relicIcons: this.player.getRelicIcons(),
     };
   }
 
@@ -148,7 +149,7 @@ export class LevelManager extends ex.Actor {
 
   public loadShop(engine: ex.Engine): void {
     // TODO: don't instantiate new shop everytime
-    const shopScene = new ShopScene(this.buildLevelOptions());
+    const shopScene = new ShopScene(this.buildLevelOptions(), this.player);
     const shopLabel = `shop${this.level}`;
 
     engine.add(shopLabel, {

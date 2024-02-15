@@ -5,7 +5,9 @@ import { AddCoinsEvent, LoadNextLevelEvent, TakeDamageEvent } from "../events";
 export abstract class DoorContents extends ex.ScreenElement {
   private sprite;
   protected event;
+  protected isOpenableByRelic = true;
 
+  // TODO: something is up with these types
   constructor(
     Event:
       | typeof AddCoinsEvent
@@ -15,7 +17,6 @@ export abstract class DoorContents extends ex.ScreenElement {
     value?: number
   ) {
     super({
-      z: 2,
       collider: ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half),
     });
 
@@ -23,12 +24,16 @@ export abstract class DoorContents extends ex.ScreenElement {
     this.event = new Event(value ?? 1);
   }
 
+  onInitialize(_engine: ex.Engine): void {
+    this.graphics.use(this.sprite);
+  }
+
   public setPos(x: number, y: number): void {
     this.pos = ex.vec(x - DOOR_WIDTH / 2, y - DOOR_WIDTH / 2);
   }
 
-  onInitialize(_engine: ex.Engine): void {
-    this.graphics.use(this.sprite);
+  public getIsOpenableByRelic(): boolean {
+    return this.isOpenableByRelic;
   }
 
   abstract onOpen(engine: ex.Engine): void;

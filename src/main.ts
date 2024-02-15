@@ -3,12 +3,7 @@ import { loader } from "./resources";
 import { MainMenu } from "./scenes/mainMenu";
 import { LevelManager } from "./levelManager";
 import { Player } from "./player";
-import {
-  AddCoinsEvent,
-  BuyItemEvent,
-  GetHealthPotionEvent,
-  TakeDamageEvent,
-} from "./events";
+import { AddCoinsEvent, GetRelicEvent, TakeDamageEvent } from "./events";
 import { Level1 } from "./scenes/levels/level1";
 import { SCENE_TRANSITION_DURATION } from "./constants";
 import { ShopScene } from "./scenes/shopScene";
@@ -94,14 +89,12 @@ engine.on("useescapeladder", () => {
   levelManager.loadNextLevel(engine);
 });
 
-engine.on("buyitem", (event) => {
-  let buyEvent = event as BuyItemEvent;
-  let scene = engine.currentScene as ShopScene;
-  if (buyEvent.type !== "buyitem") return;
+engine.on("getrelic", (event) => {
+  let relicEvent = event as GetRelicEvent;
+  if (relicEvent.type !== "getrelic") return;
 
-  player.useCoins(engine, buyEvent.cost);
-  scene.useCoins(buyEvent.cost);
-  // levelManager.useCoins(engine, buyEvent.cost);
+  console.log("GET RELIC", relicEvent.relic);
+  player.addRelic(engine, relicEvent.relic);
 });
 
 // Start the engine

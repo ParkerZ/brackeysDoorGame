@@ -26,7 +26,9 @@ export class Door extends ex.ScreenElement {
   }
 
   onInitialize(engine: ex.Engine): void {
-    this.graphics.use(doorClosedSprite);
+    if (!this.isOpen) {
+      this.graphics.use(doorClosedSprite);
+    }
 
     this.on("pointerdown", () => {
       if (!this.isOpen) this.onOpen(engine);
@@ -46,10 +48,13 @@ export class Door extends ex.ScreenElement {
     });
   }
 
+  public getContents() {
+    return this.contents;
+  }
+
   onOpen(engine: ex.Engine): void {
-    console.log("Open");
-    this.graphics.use(doorOpenSprite);
     this.isOpen = true;
+    this.graphics.use(doorOpenSprite);
 
     if (this.contents) {
       engine.add(this.contents);

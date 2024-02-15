@@ -9,25 +9,17 @@ import { Key } from "../../doorContents/items/key";
 import { selectRandom } from "../../util";
 import { HealthPotion } from "../../doorContents/items/healthPotion";
 import { EscapeLadder } from "../../doorContents/items/escapeLadder";
+import { ShopDoor } from "../../doorContents/shopDoor";
 
 export class Level7 extends Level {
   constructor(options: LevelOptions) {
     const doors = [
       new Door(StairsNextLevel),
       new Door(StairsNextLevel),
-      new Door(selectRandom([HealthPotion, Coin1])),
-      new Door(),
+      new Door(ShopDoor),
       new Door(Enemy1),
-      new Door(
-        selectRandom([
-          Shield,
-          HealthPotion,
-          Key,
-          Coin1,
-          EscapeLadder,
-          undefined,
-        ])
-      ),
+      new Door(selectRandom([HealthPotion, Coin1, Shield, undefined])),
+      new Door(selectRandom([Key, EscapeLadder])),
     ];
     super(doors, 7, options);
   }

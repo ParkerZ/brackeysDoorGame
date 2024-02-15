@@ -7,7 +7,7 @@ import { ShopDoor } from "../../doorContents/shopDoor";
 
 export class Level2 extends Level {
   constructor(options: LevelOptions) {
-    const doors = [new Door(StairsNextLevel), new Door(ShopDoor)];
+    const doors = [new Door(StairsNextLevel), new Door(Coin1)];
     super(doors, 2, options);
   }
 

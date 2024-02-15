@@ -1,29 +1,34 @@
 import * as ex from "excalibur";
-import { coinSprite } from "../../resources";
 
-// TODO: make base class
-export class CoinIcon extends ex.ScreenElement {
-  private numCoins: number = 0;
+export class UIIcon extends ex.ScreenElement {
+  private sprite: ex.Sprite;
+  protected value: number = 0;
+  protected showValue = true;
 
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number, sprite: ex.Sprite) {
     super({
       x,
       y,
     });
+
+    this.sprite = sprite.clone();
+    this.sprite.scale = ex.Vector.Half;
   }
 
   private updateDisplay(): void {
     this.graphics.hide();
-    const sprite = coinSprite.clone();
-    sprite.scale = ex.Vector.Half;
 
+    this.graphics.show(this.sprite);
+
+    if (!this.showValue) {
+      return;
+    }
     const text = new ex.Text({
-      text: `${this.numCoins}`,
+      text: `${this.value}`,
       font: new ex.Font({ size: 24, family: "verdana" }),
       color: ex.Color.White,
     });
 
-    this.graphics.show(sprite);
     this.graphics.show(text, { offset: ex.vec(40, 50) });
   }
 
@@ -31,8 +36,8 @@ export class CoinIcon extends ex.ScreenElement {
     this.updateDisplay();
   }
 
-  public setNumCoins(value: number): void {
-    this.numCoins = value;
+  public setValue(value: number): void {
+    this.value = value;
     this.updateDisplay();
   }
 

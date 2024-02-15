@@ -4,6 +4,8 @@ import { DoorContents } from "../doorContents";
 import { TakeDamageEvent } from "../../events";
 
 export class EnemyBase extends DoorContents {
+  protected isOpenableByRelic = false;
+
   constructor(damage: number, sprite: ex.Sprite) {
     super(TakeDamageEvent, sprite, damage);
   }

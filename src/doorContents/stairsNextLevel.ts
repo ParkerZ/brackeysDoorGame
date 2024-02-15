@@ -4,6 +4,8 @@ import { DoorContents } from "./doorContents";
 import { LoadNextLevelEvent } from "../events";
 
 export class StairsNextLevel extends DoorContents {
+  protected isOpenableByRelic = false;
+
   constructor() {
     super(LoadNextLevelEvent, stairsSprite);
   }

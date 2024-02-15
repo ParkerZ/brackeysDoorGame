@@ -1,3 +1,5 @@
+import { Relic } from "./ui/icons/relics/relicIcon";
+
 export type EventType =
   | "loadnextlevel"
   | "loadfirstlevel"
@@ -9,7 +11,7 @@ export type EventType =
   | "addcoins"
   | "takedamage"
   | "useescapeladder"
-  | "buyitem";
+  | "getrelic";
 
 export class LoadNextLevelEvent {
   public type: EventType = "loadnextlevel";
@@ -77,11 +79,11 @@ export class UseEscapeLadderEvent {
   constructor() {}
 }
 
-export class BuyItemEvent {
-  public cost: number;
-  public type: EventType = "buyitem";
+export class GetRelicEvent {
+  public relic;
+  public type: EventType = "getrelic";
 
-  constructor(cost: number) {
-    this.cost = cost;
+  constructor(relic: Relic) {
+    this.relic = relic;
   }
 }

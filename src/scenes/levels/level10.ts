@@ -10,6 +10,7 @@ import { selectRandom } from "../../util";
 import { HealthPotion } from "../../doorContents/items/healthPotion";
 import { EscapeLadder } from "../../doorContents/items/escapeLadder";
 import { Enemy2 } from "../../doorContents/enemy/enemy2";
+import { ShopDoor } from "../../doorContents/shopDoor";
 
 export class Level10 extends Level {
   constructor(options: LevelOptions) {
@@ -18,7 +19,7 @@ export class Level10 extends Level {
       new Door(StairsNextLevel),
       new Door(selectRandom([Shield, HealthPotion, Coin1])),
       new Door(selectRandom([Shield, HealthPotion, Coin1])),
-      new Door(),
+      new Door(ShopDoor),
       new Door(Enemy1),
       new Door(Enemy2),
       new Door(
