@@ -1,10 +1,10 @@
 import * as ex from "excalibur";
-import { loader } from "./resources";
+import { Resources, loader } from "./resources";
 import { MainMenu } from "./scenes/mainMenu";
 import { LevelManager } from "./levelManager";
 import { Player } from "./player";
 import { AddCoinsEvent, GetRelicEvent, TakeDamageEvent } from "./events";
-import { SCENE_TRANSITION_DURATION } from "./constants";
+import { SCENE_TRANSITION_DURATION, SOUNDTRACK_VOLUME } from "./constants";
 
 const engine = new ex.Engine({
   backgroundColor: ex.Color.fromHex("#000000"),
@@ -45,6 +45,9 @@ engine.on("loadnextlevel", () => {
 });
 
 engine.on("loadfirstlevel", () => {
+  Resources.sounds.sountrack.loop = true;
+  Resources.sounds.sountrack.play(SOUNDTRACK_VOLUME);
+
   player.initialize(engine);
 });
 

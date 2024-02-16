@@ -43,9 +43,11 @@ export class Level extends GameScene {
 
     // Doors need to be added before relics
     const doorLayout = DOOR_LAYOUTS[this.layoutIndex];
+    console.log(doorLayout);
     this.doors.forEach((door, i) => {
-      // if locked door is empty, add a relic
+      // if locked door is empty, add a relic and replace door
       if (door instanceof DoorLocked && !door.getContents()) {
+        console.log("something is wrong here");
         door.setContents(selectRandom(this.getAvailableRelics()));
       }
 

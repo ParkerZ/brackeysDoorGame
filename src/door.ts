@@ -1,5 +1,6 @@
 import * as ex from "excalibur";
 import {
+  Resources,
   doorClosedSprite,
   doorOpenSprite,
   doorRevealSprite,
@@ -10,6 +11,7 @@ import {
 } from "./doorContents/doorContents";
 import { DOOR_WIDTH } from "./constants";
 import { UseSpyglassEvent } from "./events";
+import { selectRandom } from "./util";
 
 const collider = ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half);
 
@@ -81,12 +83,16 @@ export class Door extends ex.ScreenElement {
 
   onOpen(engine: ex.Engine): void {
     this.isOpen = true;
-    this.graphics.use(doorOpenSprite);
+    this.playOpenDoorSound();
 
-    if (this.contents) {
-      engine.add(this.contents);
-      this.contents.onOpen(engine);
-    }
+    setTimeout(() => {
+      this.graphics.use(doorOpenSprite);
+
+      if (this.contents) {
+        engine.add(this.contents);
+        this.contents.onOpen(engine);
+      }
+    }, 100);
   }
 
   onEnter(engine: ex.Engine): void {
@@ -96,5 +102,14 @@ export class Door extends ex.ScreenElement {
     }
 
     this.contents.onEnter(engine);
+  }
+
+  private playOpenDoorSound(): void {
+    const sounds = [
+      Resources.sounds.doorOpen1,
+      Resources.sounds.doorOpen2,
+      Resources.sounds.doorOpen3,
+    ];
+    selectRandom(sounds).play();
   }
 }

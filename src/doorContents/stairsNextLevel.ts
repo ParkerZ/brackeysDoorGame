@@ -1,5 +1,5 @@
 import * as ex from "excalibur";
-import { stairsSprite } from "../resources";
+import { Resources, stairsSprite } from "../resources";
 import { DoorContents } from "./doorContents";
 import { LoadNextLevelEvent } from "../events";
 

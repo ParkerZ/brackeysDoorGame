@@ -9,6 +9,8 @@ export const INVENTORY_ITEM_PLACEMENT_MS = 25;
 export const DOOR_WIDTH = 100;
 export const DOOR_WIDTH_WITH_MARGIN = 150;
 
+export const SOUNDTRACK_VOLUME = 0.3;
+
 export const KEY_TOOLTIP = "Rusty Key:\nAllows you to open 1 locked door.";
 export const ESCAPE_LADDER_TOOLTIP = "Escape Ladder:\nUse to ascend.";
 export const SHIELD_TOOLTIP = "Shield:\nBlocks all of next attack.";

@@ -1,5 +1,12 @@
 import * as ex from "excalibur";
 
+// sounds
+const soundtrackFile = require("./res/sounds/soundtrack.wav");
+const loseSound = require("./res/sounds/lose.wav");
+const doorOpen1Sound = require("./res/sounds/doorOpen1.mp3");
+const doorOpen2Sound = require("./res/sounds/doorOpen2.mp3");
+const doorOpen3Sound = require("./res/sounds/doorOpen3.mp3");
+
 const bgMenuFile = require("./res/main.png");
 const bgLevelFile = require("./res/level.png");
 const bgWinFile = require("./res/win.png");
@@ -35,6 +42,14 @@ const extraLifeFile = require("./res/extraLife.png");
 const lockPickFile = require("./res/lockPick.png");
 
 const Resources = {
+  sounds: {
+    sountrack: new ex.Sound(soundtrackFile),
+    lose: new ex.Sound(loseSound),
+    doorOpen1: new ex.Sound(doorOpen1Sound),
+    doorOpen2: new ex.Sound(doorOpen2Sound),
+    doorOpen3: new ex.Sound(doorOpen3Sound),
+  },
+
   backgroundMenu: new ex.ImageSource(bgMenuFile),
   backgroundLevel: new ex.ImageSource(bgLevelFile),
   backgroundWin: new ex.ImageSource(bgWinFile),
@@ -107,7 +122,14 @@ const extraLifeSprite = Resources.extraLife.toSprite();
 const lockPickSprite = Resources.lockPick.toSprite();
 
 for (const res in Resources) {
-  loader.addResource((Resources as any)[res]);
+  if (res !== "sounds") {
+    loader.addResource((Resources as any)[res]);
+    continue;
+  }
+
+  for (const sound in (Resources as any).sounds) {
+    loader.addResource((Resources as any).sounds[sound]);
+  }
 }
 
 export {

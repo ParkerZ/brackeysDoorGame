@@ -25,7 +25,6 @@ export class Level13 extends Level {
       new Door(Enemy1),
       new DoorLocked(MetalDetector),
       new Door(selectRandom([Shield, HealthPotion, Coin1])),
-      new Door(selectRandom([Key, Coin1])),
       new Door(),
       new Door(),
     ];

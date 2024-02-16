@@ -24,3 +24,5 @@ Coming soon
 ### Visual Assets:
 
 ### Audio Assets:
+
+- Soundtrack: https://freesound.org/people/BloodPixelHero/sounds/685844/
