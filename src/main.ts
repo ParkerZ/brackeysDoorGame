@@ -60,18 +60,22 @@ engine.on("gethealthpotion", () => {
 });
 
 engine.on("getescapeladder", () => {
+  Resources.sounds.pickup.play();
   player.addEscapeLadder(engine);
 });
 
 engine.on("getmetaldetector", () => {
+  Resources.sounds.pickup.play();
   player.addMetalDetector(engine);
 });
 
 engine.on("getshield", () => {
+  Resources.sounds.pickup.play();
   player.addShield();
 });
 
 engine.on("getkey", () => {
+  Resources.sounds.pickup.play();
   player.addKey(engine);
 });
 
@@ -90,11 +94,13 @@ engine.on("takedamage", (event) => {
 });
 
 engine.on("useescapeladder", () => {
+  Resources.sounds.use.play();
   player.useLadder(engine);
   levelManager.loadNextLevel(engine);
 });
 
 engine.on("usemetaldetector", () => {
+  Resources.sounds.use.play();
   player.useMetalDetector(engine);
 });
 
@@ -102,6 +108,7 @@ engine.on("getrelic", (event) => {
   let relicEvent = event as GetRelicEvent;
   if (relicEvent.type !== "getrelic") return;
 
+  Resources.sounds.pickup.play();
   player.addRelic(engine, relicEvent.relic);
 });
 

@@ -1,8 +1,8 @@
 import * as ex from "excalibur";
-import { MenuBackground } from "../menuBackground";
+import { MenuBackground } from "../ui/menuBackground";
 import { backgroundMenuSprite } from "../resources";
-import { Door } from "../door";
-import { StairsNextLevel } from "../doorContents/stairsNextLevel";
+import { Door } from "../doors/door";
+import { StairsNextLevel } from "../doors/contents/stairsNextLevel";
 
 export class MainMenu extends ex.Scene {
   constructor() {

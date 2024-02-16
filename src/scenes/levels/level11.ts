@@ -1,18 +1,16 @@
 import * as ex from "excalibur";
 import { Level } from "./level";
-import { StairsNextLevel } from "../../doorContents/stairsNextLevel";
-import { Door } from "../../door";
-import { Coin1 } from "../../doorContents/items/coin/coin1";
-import { Enemy1 } from "../../doorContents/enemy/enemy1";
-import { Shield } from "../../doorContents/items/shield";
-import { Key } from "../../doorContents/items/key";
+import { StairsNextLevel } from "../../doors/contents/stairsNextLevel";
+import { Door } from "../../doors/door";
+import { Coin1 } from "../../doors/contents/items/coins/coin1";
+import { Enemy1 } from "../../doors/contents/enemy/enemy1";
+import { Shield } from "../../doors/contents/items/shield";
 import { selectRandom } from "../../util";
-import { HealthPotion } from "../../doorContents/items/healthPotion";
-import { EscapeLadder } from "../../doorContents/items/escapeLadder";
-import { Enemy2 } from "../../doorContents/enemy/enemy2";
-import { ShopDoor } from "../../doorContents/shopDoor";
+import { HealthPotion } from "../../doors/contents/items/healthPotion";
+import { Enemy2 } from "../../doors/contents/enemy/enemy2";
+import { ShopDoor } from "../../doors/contents/shopDoor";
 import { LevelOptions } from "../gameScene";
-import { DoorLocked } from "../../doorLocked";
+import { DoorLocked } from "../../doors/doorLocked";
 
 export class Level11 extends Level {
   constructor(options: LevelOptions) {
@@ -27,9 +25,5 @@ export class Level11 extends Level {
       new Door(),
     ];
     super(doors, 11, options);
-  }
-
-  onInitialize(engine: ex.Engine) {
-    super.onInitialize(engine);
   }
 }

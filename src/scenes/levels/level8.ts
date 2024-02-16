@@ -1,14 +1,13 @@
 import * as ex from "excalibur";
 import { Level } from "./level";
-import { StairsNextLevel } from "../../doorContents/stairsNextLevel";
-import { Door } from "../../door";
-import { Coin1 } from "../../doorContents/items/coin/coin1";
-import { Enemy1 } from "../../doorContents/enemy/enemy1";
-import { Key } from "../../doorContents/items/key";
+import { StairsNextLevel } from "../../doors/contents/stairsNextLevel";
+import { Door } from "../../doors/door";
+import { Coin1 } from "../../doors/contents/items/coins/coin1";
+import { Enemy1 } from "../../doors/contents/enemy/enemy1";
+import { Key } from "../../doors/contents/items/key";
 import { selectRandom } from "../../util";
-import { HealthPotion } from "../../doorContents/items/healthPotion";
+import { HealthPotion } from "../../doors/contents/items/healthPotion";
 import { LevelOptions } from "../gameScene";
-import { Shield } from "../../doorContents/items/shield";
 
 export class Level8 extends Level {
   constructor(options: LevelOptions) {
@@ -22,9 +21,5 @@ export class Level8 extends Level {
       new Door(),
     ];
     super(doors, 8, options);
-  }
-
-  onInitialize(engine: ex.Engine) {
-    super.onInitialize(engine);
   }
 }

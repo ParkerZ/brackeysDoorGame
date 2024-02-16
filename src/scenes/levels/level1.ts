@@ -1,7 +1,7 @@
 import * as ex from "excalibur";
 import { Level } from "./level";
-import { StairsNextLevel } from "../../doorContents/stairsNextLevel";
-import { Door } from "../../door";
+import { StairsNextLevel } from "../../doors/contents/stairsNextLevel";
+import { Door } from "../../doors/door";
 import { LoadFirstLevelEvent } from "../../events";
 import { LevelOptions } from "../gameScene";
 import { DisplayText } from "../../ui/displayText";

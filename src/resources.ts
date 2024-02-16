@@ -1,45 +1,56 @@
 import * as ex from "excalibur";
 
 // sounds
-const soundtrackFile = require("./res/sounds/soundtrack.wav");
-const loseSound = require("./res/sounds/lose.wav");
-const doorOpen1Sound = require("./res/sounds/doorOpen1.mp3");
-const doorOpen2Sound = require("./res/sounds/doorOpen2.mp3");
-const doorOpen3Sound = require("./res/sounds/doorOpen3.mp3");
+const soundtrackFile = require("../res/sounds/soundtrack.wav");
+const loseSound = require("../res/sounds/lose.wav");
+const doorOpen1Sound = require("../res/sounds/doorOpen1.mp3");
+const doorOpen2Sound = require("../res/sounds/doorOpen2.mp3");
+const doorOpen3Sound = require("../res/sounds/doorOpen3.mp3");
+const coin1Sound = require("../res/sounds/coin1.wav");
+const coin2Sound = require("../res/sounds/coin2.wav");
+const coin3Sound = require("../res/sounds/coin3.wav");
+const healSound = require("../res/sounds/heal.wav");
+const unlockSound = require("../res/sounds/unlock.wav");
+const revealSound = require("../res/sounds/reveal.wav");
+const pickupSound = require("../res/sounds/pickup.wav");
+const hurtSound = require("../res/sounds/hurt.wav");
+const blockSound = require("../res/sounds/block.wav");
+const useSound = require("../res/sounds/use.wav");
+const stepsSound = require("../res/sounds/steps.wav");
 
-const bgMenuFile = require("./res/main.png");
-const bgLevelFile = require("./res/level.png");
-const bgWinFile = require("./res/win.png");
-const bgLoseFile = require("./res/lose.png");
+const bgMenuFile = require("../res/main.png");
+const bgLevelFile = require("../res/level.png");
+const bgWinFile = require("../res/win.png");
+const bgLoseFile = require("../res/lose.png");
 
-const doorClosedFile = require("./res/doorClosed.png");
-const doorOpenFile = require("./res/doorOpen.png");
-const doorRevealFile = require("./res/doorReveal.png");
-const doorClosedLockedFile = require("./res/doorClosedLocked.png");
-const doorRevealLockedFile = require("./res/doorRevealLocked.png");
+const doorClosedFile = require("../res/doorClosed.png");
+const doorOpenFile = require("../res/doorOpen.png");
+const doorRevealFile = require("../res/doorReveal.png");
+const doorClosedLockedFile = require("../res/doorClosedLocked.png");
+const doorRevealLockedFile = require("../res/doorRevealLocked.png");
 
 // door contents
-const stairsFile = require("./res/stairs.png");
-const coinFile = require("./res/coin.png");
-const coin2File = require("./res/coin2.png");
-const enemyFile = require("./res/enemy.png");
-const enemySmallFile = require("./res/enemySmall.png");
-const heartFile = require("./res/heart.png");
-const heartEmptyFile = require("./res/heartEmpty.png");
-const ladderFile = require("./res/ladder.png");
-const shieldFile = require("./res/shield.png");
-const keyFile = require("./res/key.png");
-const shopFile = require("./res/shop.png");
-const metalDetectorFile = require("./res/metalDetector.png");
+const stairsFile = require("../res/stairs.png");
+const coinFile = require("../res/coin.png");
+const coin2File = require("../res/coin2.png");
+const enemyFile = require("../res/enemy.png");
+const enemySmallFile = require("../res/enemySmall.png");
+const heartFile = require("../res/heart.png");
+const heartEmptyFile = require("../res/heartEmpty.png");
+const ladderFile = require("../res/ladder.png");
+const shieldFile = require("../res/shield.png");
+const keyFile = require("../res/key.png");
+const shopFile = require("../res/shop.png");
+const metalDetectorFile = require("../res/metalDetector.png");
 
 // relic
-const livingShieldFile = require("./res/livingShield.png");
-const doorOpenerFile = require("./res/crowbar.png");
-const piggyBankFile = require("./res/piggybank.png");
-const boneFingerFile = require("./res/boneFinger.png");
-const spyglassFile = require("./res/spyglass.png");
-const extraLifeFile = require("./res/extraLife.png");
-const lockPickFile = require("./res/lockPick.png");
+const livingShieldFile = require("../res/livingShield.png");
+const doorOpenerFile = require("../res/crowbar.png");
+const piggyBankFile = require("../res/piggybank.png");
+const boneFingerFile = require("../res/boneFinger.png");
+const spyglassFile = require("../res/spyglass.png");
+const extraLifeFile = require("../res/extraLife.png");
+const lockPickFile = require("../res/lockPick.png");
 
 const Resources = {
   sounds: {
@@ -48,6 +59,17 @@ const Resources = {
     doorOpen1: new ex.Sound(doorOpen1Sound),
     doorOpen2: new ex.Sound(doorOpen2Sound),
     doorOpen3: new ex.Sound(doorOpen3Sound),
+    coin1: new ex.Sound(coin1Sound),
+    coin2: new ex.Sound(coin2Sound),
+    coin3: new ex.Sound(coin3Sound),
+    heal: new ex.Sound(healSound),
+    unlock: new ex.Sound(unlockSound),
+    reveal: new ex.Sound(revealSound),
+    pickup: new ex.Sound(pickupSound),
+    hurt: new ex.Sound(hurtSound),
+    block: new ex.Sound(blockSound),
+    use: new ex.Sound(useSound),
+    steps: new ex.Sound(stepsSound),
   },
 
   backgroundMenu: new ex.ImageSource(bgMenuFile),

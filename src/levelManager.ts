@@ -43,7 +43,7 @@ export class LevelManager extends ex.Actor {
       case 1:
         return Level1;
       case 2:
-        return Level13;
+        return Level2;
       case 3:
         return Level3;
       case 4:

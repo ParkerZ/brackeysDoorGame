@@ -2,6 +2,8 @@ import * as ex from "excalibur";
 import { EscapeLadderButton } from "./ui/icons/items/escapeLadderButton";
 import { KeyIcon } from "./ui/icons/items/keyIcon";
 import {
+  HEAL_VOLUME,
+  HURT_VOLUME,
   INVENTORY_ITEM_OFFSET,
   INVENTORY_ITEM_PLACEMENT_MS,
   INVENTORY_ITEM_SPACING,
@@ -19,6 +21,7 @@ import { PlayerDieEvent } from "./events";
 import { ExtraLifeIcon } from "./ui/icons/relics/extraLifeIcon";
 import { MetalDetectorButton } from "./ui/icons/items/metalDetectorButton";
 import { LockPickIcon } from "./ui/icons/relics/lockPickIcon";
+import { Resources } from "./resources";
 
 export class Player extends ex.Actor {
   private isInit = false;
@@ -148,15 +151,18 @@ export class Player extends ex.Actor {
 
   public takeDamage(engine: ex.Engine, value: number): void {
     if (this.shield > 0) {
+      Resources.sounds.block.play();
       this.shield--;
       this.shieldBar.setCurrShields(this.shield);
     } else {
       this.health -= value;
       this.healthBar.setCurrHearts(this.health);
-    }
 
-    if (this.health <= 0) {
-      this.handleNoHealth(engine);
+      if (this.health <= 0) {
+        this.handleNoHealth(engine);
+        return;
+      }
+      Resources.sounds.hurt.play(HURT_VOLUME);
     }
   }
 
@@ -166,6 +172,7 @@ export class Player extends ex.Actor {
     );
 
     if (extraLifeRelicIndex !== -1) {
+      Resources.sounds.heal.play(HEAL_VOLUME);
       this.gainHealth(this.maxHealth - this.health);
 
       engine.remove(this.displayRelics[extraLifeRelicIndex]);
@@ -176,6 +183,7 @@ export class Player extends ex.Actor {
       return;
     }
 
+    Resources.sounds.hurt.play(HURT_VOLUME);
     const event = new PlayerDieEvent();
     engine.emit(event.type, event);
   }

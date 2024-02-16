@@ -7,7 +7,7 @@ import { KeyIcon } from "../ui/icons/items/keyIcon";
 import { CoinIcon } from "../ui/icons/items/coinIcon";
 import { LivingShieldIcon } from "../ui/icons/relics/livingShieldIcon";
 import { DoorOpenerIcon } from "../ui/icons/relics/doorOpenerIcon";
-import { MenuBackground } from "../menuBackground";
+import { MenuBackground } from "../ui/menuBackground";
 import { RelicIcon } from "../ui/icons/relics/relicIcon";
 
 export type LevelOptions = {

@@ -1,26 +1,26 @@
 import * as ex from "excalibur";
 import { backgroundLevelSprite } from "../../resources";
-import { Door } from "../../door";
+import { Door } from "../../doors/door";
 import { selectRandom, shuffleArray } from "../../util";
 import { DOOR_LAYOUTS } from "../../constants";
 import { GetShieldEvent } from "../../events";
-import { Coin1 } from "../../doorContents/items/coin/coin1";
-import { EnemyBase } from "../../doorContents/enemy/enemyBase";
-import { CoinBase } from "../../doorContents/items/coin/coinBase";
-import { DoorLocked } from "../../doorLocked";
+import { Coin1 } from "../../doors/contents/items/coins/coin1";
+import { EnemyBase } from "../../doors/contents/enemy/enemyBase";
+import { CoinBase } from "../../doors/contents/items/coins/coinBase";
+import { DoorLocked } from "../../doors/doorLocked";
 import { GameScene, LevelOptions } from "../gameScene";
 import { RelicIcon } from "../../ui/icons/relics/relicIcon";
 import {
   DoorContents,
   InstantiableDoorContents,
-} from "../../doorContents/doorContents";
-import { DeathGripRelic } from "../../doorContents/items/relics/deathGripRelic";
-import { DoorOpenerRelic } from "../../doorContents/items/relics/doorOpenerRelic";
-import { ExtraLifeRelic } from "../../doorContents/items/relics/extraLifeRelic";
-import { LivingShieldRelic } from "../../doorContents/items/relics/livingShieldRelic";
-import { LockPickRelic } from "../../doorContents/items/relics/lockPickRelic";
-import { PiggyBankRelic } from "../../doorContents/items/relics/piggyBankRelic";
-import { SpyglassRelic } from "../../doorContents/items/relics/spyglassRelic";
+} from "../../doors/contents/doorContents";
+import { DeathGripRelic } from "../../doors/contents/items/relics/deathGripRelic";
+import { DoorOpenerRelic } from "../../doors/contents/items/relics/doorOpenerRelic";
+import { ExtraLifeRelic } from "../../doors/contents/items/relics/extraLifeRelic";
+import { LivingShieldRelic } from "../../doors/contents/items/relics/livingShieldRelic";
+import { LockPickRelic } from "../../doors/contents/items/relics/lockPickRelic";
+import { PiggyBankRelic } from "../../doors/contents/items/relics/piggyBankRelic";
+import { SpyglassRelic } from "../../doors/contents/items/relics/spyglassRelic";
 
 export class Level extends GameScene {
   protected doors: Door[];

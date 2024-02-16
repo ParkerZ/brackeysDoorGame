@@ -26,3 +26,6 @@ Coming soon
 ### Audio Assets:
 
 - Soundtrack: https://freesound.org/people/BloodPixelHero/sounds/685844/
+- Lose: https://freesound.org/people/BloodPixelHero/sounds/572938/
+- Steps: https://freesound.org/people/areniporgen/sounds/712084/
+- Door: https://freesound.org/people/AUDACITIER/sounds/632328/

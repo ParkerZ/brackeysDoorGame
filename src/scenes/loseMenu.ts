@@ -1,5 +1,5 @@
 import * as ex from "excalibur";
-import { MenuBackground } from "../menuBackground";
+import { MenuBackground } from "../ui/menuBackground";
 import { backgroundLoseSprite } from "../resources";
 
 export class LoseMenu extends ex.Scene {

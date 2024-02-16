@@ -1,23 +1,23 @@
 import * as ex from "excalibur";
 import { selectRandom, shuffleArray } from "../util";
-import { StairsNextLevel } from "../doorContents/stairsNextLevel";
-import { Door } from "../door";
+import { StairsNextLevel } from "../doors/contents/stairsNextLevel";
+import { Door } from "../doors/door";
 import { DOOR_WIDTH_WITH_MARGIN } from "../constants";
 import { backgroundLevelSprite } from "../resources";
 import { Player } from "../player";
-import { ShopHealthPotion } from "../doorContents/items/shopItems/shopHealthPotion";
-import { ShopShield } from "../doorContents/items/shopItems/shopShield";
-import { ShopKey } from "../doorContents/items/shopItems/shopKey";
-import { ShopEscapeLadder } from "../doorContents/items/shopItems/shopEscapeLadder";
-import { ShopMetalDetector } from "../doorContents/items/shopItems/shopMetalDetector";
+import { ShopHealthPotion } from "../doors/contents/items/shopItems/shopHealthPotion";
+import { ShopShield } from "../doors/contents/items/shopItems/shopShield";
+import { ShopKey } from "../doors/contents/items/shopItems/shopKey";
+import { ShopEscapeLadder } from "../doors/contents/items/shopItems/shopEscapeLadder";
+import { ShopMetalDetector } from "../doors/contents/items/shopItems/shopMetalDetector";
 import { GameScene, LevelOptions } from "./gameScene";
-import { ShopLivingShieldRelic } from "../doorContents/items/shopItems/relics/shopLivingShieldRelic";
-import { ShopPiggyBankRelic } from "../doorContents/items/shopItems/relics/shopPiggyBankRelic";
-import { ShopDoorOpenerRelic } from "../doorContents/items/shopItems/relics/shopDoorOpenerRelic";
-import { ShopDeathGripRelic } from "../doorContents/items/shopItems/relics/shopDeathGripRelic";
-import { ShopSpyglassRelic } from "../doorContents/items/shopItems/relics/shopSpyglassRelic";
-import { ShopExtraLifeRelic } from "../doorContents/items/shopItems/relics/shopExtraLifeRelic";
-import { ShopLockPickRelic } from "../doorContents/items/shopItems/relics/shopLockPickRelic";
+import { ShopLivingShieldRelic } from "../doors/contents/items/shopItems/relics/shopLivingShieldRelic";
+import { ShopPiggyBankRelic } from "../doors/contents/items/shopItems/relics/shopPiggyBankRelic";
+import { ShopDoorOpenerRelic } from "../doors/contents/items/shopItems/relics/shopDoorOpenerRelic";
+import { ShopDeathGripRelic } from "../doors/contents/items/shopItems/relics/shopDeathGripRelic";
+import { ShopSpyglassRelic } from "../doors/contents/items/shopItems/relics/shopSpyglassRelic";
+import { ShopExtraLifeRelic } from "../doors/contents/items/shopItems/relics/shopExtraLifeRelic";
+import { ShopLockPickRelic } from "../doors/contents/items/shopItems/relics/shopLockPickRelic";
 
 export class ShopScene extends GameScene {
   private player: Player;
