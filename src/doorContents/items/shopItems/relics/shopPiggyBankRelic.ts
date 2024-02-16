@@ -6,6 +6,6 @@ import { ShopRelic } from "./shopRelic";
 
 export class ShopPiggyBankRelic extends ShopRelic {
   constructor(player: Player) {
-    super("piggybank", piggyBankSprite, 5, player, PIGGY_BANK_TOOLTIP);
+    super("piggybank", piggyBankSprite, 4, player, PIGGY_BANK_TOOLTIP);
   }
 }

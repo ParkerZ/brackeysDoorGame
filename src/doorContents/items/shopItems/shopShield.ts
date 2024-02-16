@@ -7,6 +7,6 @@ import { SHIELD_TOOLTIP } from "../../../constants";
 
 export class ShopShield extends ShopItem {
   constructor(player: Player) {
-    super(new GetShieldEvent(), shieldSprite, 3, player, SHIELD_TOOLTIP);
+    super(new GetShieldEvent(), shieldSprite, 2, player, SHIELD_TOOLTIP);
   }
 }

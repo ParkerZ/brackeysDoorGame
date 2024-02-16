@@ -12,6 +12,7 @@ import { LevelOptions } from "../gameScene";
 import { Coin2 } from "../../doorContents/items/coin/coin2";
 import { DoorLocked } from "../../doorLocked";
 import { MetalDetector } from "../../doorContents/items/metalDetector";
+import { Key } from "../../doorContents/items/key";
 
 export class Level13 extends Level {
   constructor(options: LevelOptions) {
@@ -19,11 +20,12 @@ export class Level13 extends Level {
       new Door(StairsNextLevel),
       new Door(ShopDoor),
       new Door(Coin2),
-      new Door(selectRandom([Shield, HealthPotion, Coin1])),
       new Door(Enemy1),
       new Door(Enemy1),
       new Door(Enemy1),
       new DoorLocked(MetalDetector),
+      new Door(selectRandom([Shield, HealthPotion, Coin1])),
+      new Door(selectRandom([Key, Coin1])),
       new Door(),
       new Door(),
     ];

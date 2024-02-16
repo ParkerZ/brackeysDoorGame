@@ -6,6 +6,6 @@ import { ShopRelic } from "./shopRelic";
 
 export class ShopLivingShieldRelic extends ShopRelic {
   constructor(player: Player) {
-    super("livingshield", livingShieldSprite, 6, player, LIVING_SHIELD_TOOLTIP);
+    super("livingshield", livingShieldSprite, 5, player, LIVING_SHIELD_TOOLTIP);
   }
 }

@@ -9,14 +9,6 @@ import { LivingShieldIcon } from "../ui/icons/relics/livingShieldIcon";
 import { DoorOpenerIcon } from "../ui/icons/relics/doorOpenerIcon";
 import { MenuBackground } from "../menuBackground";
 import { RelicIcon } from "../ui/icons/relics/relicIcon";
-import { ShopLivingShieldRelic } from "../doorContents/items/shopItems/relics/shopLivingShieldRelic";
-import { ShopDeathGripRelic } from "../doorContents/items/shopItems/relics/shopDeathGripRelic";
-import { ShopDoorOpenerRelic } from "../doorContents/items/shopItems/relics/shopDoorOpenerRelic";
-import { ShopPiggyBankRelic } from "../doorContents/items/shopItems/relics/shopPiggyBankRelic";
-import { ShopSpyglassRelic } from "../doorContents/items/shopItems/relics/shopSpyglassRelic";
-import { ShopExtraLifeRelic } from "../doorContents/items/shopItems/relics/shopExtraLifeRelic";
-import { ShopLockPickRelic } from "../doorContents/items/shopItems/relics/shopLockPickRelic";
-import { selectRandom } from "../util";
 
 export type LevelOptions = {
   healthBar: HealthBar;
@@ -61,7 +53,7 @@ export class GameScene extends ex.Scene {
     engine.add(bg);
 
     this.relicIcons.forEach((icon) => {
-      this.handleRelic(engine, icon);
+      engine.add(icon);
     });
 
     engine.add(this.healthBar);
@@ -82,9 +74,5 @@ export class GameScene extends ex.Scene {
     if (this.coinIcon) {
       engine.add(this.coinIcon);
     }
-  }
-
-  protected handleRelic(engine: ex.Engine, icon: RelicIcon): void {
-    engine.add(icon);
   }
 }

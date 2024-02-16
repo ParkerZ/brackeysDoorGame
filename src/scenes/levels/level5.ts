@@ -8,6 +8,7 @@ import { Shield } from "../../doorContents/items/shield";
 import { selectRandom } from "../../util";
 import { HealthPotion } from "../../doorContents/items/healthPotion";
 import { LevelOptions } from "../gameScene";
+import { DisplayText } from "../../ui/displayText";
 
 export class Level5 extends Level {
   constructor(options: LevelOptions) {
@@ -22,6 +23,14 @@ export class Level5 extends Level {
   }
 
   onInitialize(engine: ex.Engine) {
+    const text = new DisplayText(
+      0,
+      0,
+      'They say "When one door closes, another one opens."\n---\nPray the opposite isn\'t true.'
+    );
+    text.setPos(engine.halfDrawWidth, engine.halfDrawHeight - 120);
+    engine.add(text);
+
     super.onInitialize(engine);
   }
 }

@@ -6,6 +6,6 @@ import { ShopRelic } from "./shopRelic";
 
 export class ShopSpyglassRelic extends ShopRelic {
   constructor(player: Player) {
-    super("spyglass", spyglassSprite, 6, player, SPYGLASS_TOOLTIP);
+    super("spyglass", spyglassSprite, 5, player, SPYGLASS_TOOLTIP);
   }
 }

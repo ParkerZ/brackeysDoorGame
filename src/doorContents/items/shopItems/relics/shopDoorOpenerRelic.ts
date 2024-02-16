@@ -6,6 +6,6 @@ import { ShopRelic } from "./shopRelic";
 
 export class ShopDoorOpenerRelic extends ShopRelic {
   constructor(player: Player) {
-    super("dooropener", doorOpenerSprite, 5, player, DOOR_OPENER_TOOLTIP);
+    super("dooropener", doorOpenerSprite, 4, player, DOOR_OPENER_TOOLTIP);
   }
 }

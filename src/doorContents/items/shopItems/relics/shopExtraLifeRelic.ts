@@ -6,6 +6,6 @@ import { ShopRelic } from "./shopRelic";
 
 export class ShopExtraLifeRelic extends ShopRelic {
   constructor(player: Player) {
-    super("extralife", extraLifeSprite, 6, player, EXTRA_LIFE_TOOLTIP);
+    super("extralife", extraLifeSprite, 5, player, EXTRA_LIFE_TOOLTIP);
   }
 }

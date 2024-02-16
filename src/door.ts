@@ -57,18 +57,6 @@ export class Door extends ex.ScreenElement {
       this.onEnter(engine);
     });
 
-    this.on("pointerup", () => {
-      // console.log("up");
-    });
-
-    this.on("pointerenter", () => {
-      // console.log("hover");
-    });
-
-    this.on("pointerleave", () => {
-      // console.log("off");
-    });
-
     if (this.contents) {
       engine.add(this.contents);
     }
@@ -76,6 +64,10 @@ export class Door extends ex.ScreenElement {
 
   public getContents() {
     return this.contents;
+  }
+
+  public setContents(Contents: InstantiableDoorContents<DoorContents>) {
+    this.contents = new Contents();
   }
 
   public setShouldReveal(value: boolean): void {

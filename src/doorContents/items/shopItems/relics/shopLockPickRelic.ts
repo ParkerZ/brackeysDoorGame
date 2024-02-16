@@ -6,6 +6,6 @@ import { ShopRelic } from "./shopRelic";
 
 export class ShopLockPickRelic extends ShopRelic {
   constructor(player: Player) {
-    super("lockpick", lockPickSprite, 7, player, LOCK_PICK_TOOLTIP);
+    super("lockpick", lockPickSprite, 6, player, LOCK_PICK_TOOLTIP);
   }
 }

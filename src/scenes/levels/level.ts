@@ -41,25 +41,24 @@ export class Level extends GameScene {
   onInitialize(engine: ex.Engine) {
     super.onInitialize(engine);
 
-    if (!this.doors.length || !DOOR_LAYOUTS[this.layoutIndex]) return;
-
+    // Doors need to be added before relics
     const doorLayout = DOOR_LAYOUTS[this.layoutIndex];
     this.doors.forEach((door, i) => {
-      let doorToAdd = door;
-
       // if locked door is empty, add a relic
-      if (doorToAdd instanceof DoorLocked && !doorToAdd.getContents()) {
-        const existingContents = doorToAdd.getContents();
-
-        doorToAdd = new DoorLocked(selectRandom(this.getAvailableRelics()));
+      if (door instanceof DoorLocked && !door.getContents()) {
+        door.setContents(selectRandom(this.getAvailableRelics()));
       }
 
-      doorToAdd.setPos(
+      door.setPos(
         engine.halfDrawWidth + doorLayout[i].x,
         engine.halfDrawHeight + doorLayout[i].y
       );
-      engine.add(doorToAdd);
+      engine.add(door);
+
+      return door;
     });
+
+    this.relicIcons.forEach((icon) => this.handleRelic(engine, icon));
 
     if (this.playerHasKey) {
       this.setDoorsUnlockable();
@@ -133,8 +132,6 @@ export class Level extends GameScene {
         this.doors.forEach((door) => door.setShouldReveal(true));
         break;
     }
-
-    super.handleRelic(engine, icon);
   }
 
   onDeactivate(context: ex.SceneActivationContext<undefined>): void {

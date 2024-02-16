@@ -5,6 +5,7 @@ import { Door } from "../../door";
 import { Coin1 } from "../../doorContents/items/coin/coin1";
 import { ShopDoor } from "../../doorContents/shopDoor";
 import { LevelOptions } from "../gameScene";
+import { DisplayText } from "../../ui/displayText";
 
 export class Level3 extends Level {
   constructor(options: LevelOptions) {
@@ -13,6 +14,10 @@ export class Level3 extends Level {
   }
 
   onInitialize(engine: ex.Engine) {
+    const text = new DisplayText(0, 0, "Some doors lead to isolation...");
+    text.setPos(engine.halfDrawWidth, engine.halfDrawHeight - 100);
+    engine.add(text);
+
     super.onInitialize(engine);
   }
 }

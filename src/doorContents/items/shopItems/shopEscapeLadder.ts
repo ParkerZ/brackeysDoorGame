@@ -10,7 +10,7 @@ export class ShopEscapeLadder extends ShopItem {
     super(
       new GetEscapeLadderEvent(),
       ladderSprite,
-      4,
+      3,
       player,
       ESCAPE_LADDER_TOOLTIP
     );

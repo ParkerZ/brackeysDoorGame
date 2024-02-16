@@ -10,7 +10,7 @@ export class ShopMetalDetector extends ShopItem {
     super(
       new GetMetalDetectorEvent(),
       metalDetectorSprite,
-      2,
+      1,
       player,
       METAL_DETECTOR_TOOLTIP
     );

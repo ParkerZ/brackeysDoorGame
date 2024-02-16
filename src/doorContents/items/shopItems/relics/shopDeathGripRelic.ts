@@ -6,6 +6,6 @@ import { ShopRelic } from "./shopRelic";
 
 export class ShopDeathGripRelic extends ShopRelic {
   constructor(player: Player) {
-    super("deathgrip", boneFingerSprite, 7, player, DEATH_GRIP_TOOLTIP);
+    super("deathgrip", boneFingerSprite, 6, player, DEATH_GRIP_TOOLTIP);
   }
 }
