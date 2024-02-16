@@ -6,12 +6,17 @@ export type EventType =
   | "loadshop"
   | "gethealthpotion"
   | "getescapeladder"
+  | "getmetaldetector"
   | "getshield"
   | "getkey"
   | "addcoins"
   | "takedamage"
   | "useescapeladder"
-  | "getrelic";
+  | "usemetaldetector"
+  | "getrelic"
+  | "usespyglass"
+  | "playerdie"
+  | "unlockdoor";
 
 export class LoadNextLevelEvent {
   public type: EventType = "loadnextlevel";
@@ -39,6 +44,12 @@ export class GetHealthPotionEvent {
 
 export class GetEscapeLadderEvent {
   public type: EventType = "getescapeladder";
+
+  constructor() {}
+}
+
+export class GetMetalDetectorEvent {
+  public type: EventType = "getmetaldetector";
 
   constructor() {}
 }
@@ -79,6 +90,12 @@ export class UseEscapeLadderEvent {
   constructor() {}
 }
 
+export class UseMetalDetectorEvent {
+  public type: EventType = "usemetaldetector";
+
+  constructor() {}
+}
+
 export class GetRelicEvent {
   public relic;
   public type: EventType = "getrelic";
@@ -86,6 +103,24 @@ export class GetRelicEvent {
   constructor(relic: Relic) {
     this.relic = relic;
   }
+}
+
+export class UseSpyglassEvent {
+  public type: EventType = "usespyglass";
+
+  constructor() {}
+}
+
+export class PlayerDieEvent {
+  public type: EventType = "playerdie";
+
+  constructor() {}
+}
+
+export class UnlockDoorEvent {
+  public type: EventType = "unlockdoor";
+
+  constructor() {}
 }
 
 export type GameEvent =
@@ -99,4 +134,7 @@ export type GameEvent =
   | AddCoinsEvent
   | TakeDamageEvent
   | UseEscapeLadderEvent
-  | GetRelicEvent;
+  | GetRelicEvent
+  | UseSpyglassEvent
+  | PlayerDieEvent
+  | UnlockDoorEvent;

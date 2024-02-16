@@ -12,6 +12,8 @@ export const DOOR_WIDTH_WITH_MARGIN = 150;
 export const KEY_TOOLTIP = "Rusty Key:\nAllows you to open 1 locked door.";
 export const ESCAPE_LADDER_TOOLTIP = "Escape Ladder:\nUse to ascend.";
 export const SHIELD_TOOLTIP = "Shield:\nBlocks all of next attack.";
+export const METAL_DETECTOR_TOOLTIP =
+  "Metal Detector:\nUse to find all coins on floor.";
 export const LIVING_SHIELD_TOOLTIP =
   "Stair Shield:\nGrants 1 shield each time you ascend.";
 export const DOOR_OPENER_TOOLTIP =
@@ -21,7 +23,11 @@ export const PIGGY_BANK_TOOLTIP =
 export const DEATH_GRIP_TOOLTIP =
   "Death Grip:\nReveal 1 enemy every time you ascend.";
 export const SPYGLASS_TOOLTIP =
-  "Spyglass:\nReveal the first door you open each floor.";
+  "Spyglass:\nReveal the first door you would open each floor.";
+export const EXTRA_LIFE_TOOLTIP =
+  "Reincarnation Potion:\nRevive at full health next time you would die.";
+export const LOCK_PICK_TOOLTIP =
+  "Lock Pick:\nOpens locked doors without Rusty Keys.";
 
 export const DOOR_LAYOUTS = [
   [ex.vec(0, 0)],

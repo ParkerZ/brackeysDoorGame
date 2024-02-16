@@ -6,7 +6,9 @@ export type Relic =
   | "dooropener"
   | "piggybank"
   | "deathgrip"
-  | "spyglass";
+  | "spyglass"
+  | "extralife"
+  | "lockpick";
 
 export class RelicIcon extends UIIcon {
   private relic: Relic;

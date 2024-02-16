@@ -8,6 +8,7 @@ export abstract class DoorContents extends ex.ScreenElement {
   protected event: GameEvent;
   protected isOpenableByRelic = true;
   protected tooltip: DisplayText | undefined;
+  protected isTooltipEnabled = false;
 
   constructor(event: GameEvent, sprite: ex.Sprite, tooltip?: string) {
     super({
@@ -26,15 +27,15 @@ export abstract class DoorContents extends ex.ScreenElement {
     this.graphics.use(this.sprite);
 
     this.on("pointerenter", () => {
-      if (this.tooltip) engine.add(this.tooltip);
+      if (this.tooltip && this.isTooltipEnabled) engine.add(this.tooltip);
     });
 
     this.on("pointerleave", () => {
-      if (this.tooltip) engine.remove(this.tooltip);
+      if (this.tooltip && this.isTooltipEnabled) engine.remove(this.tooltip);
     });
 
     this.on("kill", () => {
-      if (this.tooltip) engine.remove(this.tooltip);
+      if (this.tooltip && this.isTooltipEnabled) engine.remove(this.tooltip);
     });
   }
 
@@ -45,6 +46,13 @@ export abstract class DoorContents extends ex.ScreenElement {
 
   public getIsOpenableByRelic(): boolean {
     return this.isOpenableByRelic;
+  }
+
+  public setIsTooltipEnabled(value: boolean): void {
+    if (!this.tooltip) {
+      return;
+    }
+    this.isTooltipEnabled = value;
   }
 
   abstract onOpen(engine: ex.Engine): void;

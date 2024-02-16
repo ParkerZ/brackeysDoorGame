@@ -3,13 +3,18 @@ import * as ex from "excalibur";
 const bgMenuFile = require("./res/main.png");
 const bgLevelFile = require("./res/level.png");
 const bgWinFile = require("./res/win.png");
+const bgLoseFile = require("./res/lose.png");
 
 const doorClosedFile = require("./res/doorClosed.png");
 const doorOpenFile = require("./res/doorOpen.png");
 const doorRevealFile = require("./res/doorReveal.png");
+const doorClosedLockedFile = require("./res/doorClosedLocked.png");
+const doorRevealLockedFile = require("./res/doorRevealLocked.png");
 
+// door contents
 const stairsFile = require("./res/stairs.png");
 const coinFile = require("./res/coin.png");
+const coin2File = require("./res/coin2.png");
 const enemyFile = require("./res/enemy.png");
 const enemySmallFile = require("./res/enemySmall.png");
 const heartFile = require("./res/heart.png");
@@ -18,22 +23,33 @@ const ladderFile = require("./res/ladder.png");
 const shieldFile = require("./res/shield.png");
 const keyFile = require("./res/key.png");
 const shopFile = require("./res/shop.png");
+const metalDetectorFile = require("./res/metalDetector.png");
 
+// relic
 const livingShieldFile = require("./res/livingShield.png");
 const doorOpenerFile = require("./res/crowbar.png");
 const piggyBankFile = require("./res/piggybank.png");
 const boneFingerFile = require("./res/boneFinger.png");
 const spyglassFile = require("./res/spyglass.png");
+const extraLifeFile = require("./res/extraLife.png");
+const lockPickFile = require("./res/lockPick.png");
 
 const Resources = {
   backgroundMenu: new ex.ImageSource(bgMenuFile),
   backgroundLevel: new ex.ImageSource(bgLevelFile),
   backgroundWin: new ex.ImageSource(bgWinFile),
+  backgroundLose: new ex.ImageSource(bgLoseFile),
+
   doorClosed: new ex.ImageSource(doorClosedFile),
   doorOpen: new ex.ImageSource(doorOpenFile),
   doorReveal: new ex.ImageSource(doorRevealFile),
+  doorClosedLocked: new ex.ImageSource(doorClosedLockedFile),
+  doorRevealLocked: new ex.ImageSource(doorRevealLockedFile),
+
+  // door contents
   stairs: new ex.ImageSource(stairsFile),
   coin: new ex.ImageSource(coinFile),
+  coin2: new ex.ImageSource(coin2File),
   enemy: new ex.ImageSource(enemyFile),
   enemySmall: new ex.ImageSource(enemySmallFile),
   heart: new ex.ImageSource(heartFile),
@@ -42,6 +58,7 @@ const Resources = {
   shield: new ex.ImageSource(shieldFile),
   key: new ex.ImageSource(keyFile),
   shop: new ex.ImageSource(shopFile),
+  metalDetector: new ex.ImageSource(metalDetectorFile),
 
   // relics
   livingShield: new ex.ImageSource(livingShieldFile),
@@ -49,6 +66,8 @@ const Resources = {
   piggyBank: new ex.ImageSource(piggyBankFile),
   boneFinger: new ex.ImageSource(boneFingerFile),
   spyglass: new ex.ImageSource(spyglassFile),
+  extraLife: new ex.ImageSource(extraLifeFile),
+  lockPick: new ex.ImageSource(lockPickFile),
 };
 
 const loader = new ex.Loader();
@@ -56,11 +75,18 @@ const loader = new ex.Loader();
 const backgroundMenuSprite = Resources.backgroundMenu.toSprite();
 const backgroundLevelSprite = Resources.backgroundLevel.toSprite();
 const backgroundWinSprite = Resources.backgroundWin.toSprite();
+const backgroundLoseSprite = Resources.backgroundLose.toSprite();
+
 const doorClosedSprite = Resources.doorClosed.toSprite();
 const doorOpenSprite = Resources.doorOpen.toSprite();
 const doorRevealSprite = Resources.doorReveal.toSprite();
+const doorClosedLockedSprite = Resources.doorClosedLocked.toSprite();
+const doorRevealLockedSprite = Resources.doorRevealLocked.toSprite();
+
+// door contents
 const stairsSprite = Resources.stairs.toSprite();
 const coinSprite = Resources.coin.toSprite();
+const coin2Sprite = Resources.coin2.toSprite();
 const enemySprite = Resources.enemy.toSprite();
 const enemySmallSprite = Resources.enemySmall.toSprite();
 const heartSprite = Resources.heart.toSprite();
@@ -69,6 +95,7 @@ const ladderSprite = Resources.ladder.toSprite();
 const shieldSprite = Resources.shield.toSprite();
 const keySprite = Resources.key.toSprite();
 const shopSprite = Resources.shop.toSprite();
+const metalDetectorSprite = Resources.metalDetector.toSprite();
 
 // relics
 const livingShieldSprite = Resources.livingShield.toSprite();
@@ -76,6 +103,8 @@ const doorOpenerSprite = Resources.doorOpener.toSprite();
 const piggyBankSprite = Resources.piggyBank.toSprite();
 const boneFingerSprite = Resources.boneFinger.toSprite();
 const spyglassSprite = Resources.spyglass.toSprite();
+const extraLifeSprite = Resources.extraLife.toSprite();
+const lockPickSprite = Resources.lockPick.toSprite();
 
 for (const res in Resources) {
   loader.addResource((Resources as any)[res]);
@@ -87,11 +116,15 @@ export {
   backgroundMenuSprite,
   backgroundLevelSprite,
   backgroundWinSprite,
+  backgroundLoseSprite,
   doorClosedSprite,
   doorOpenSprite,
   doorRevealSprite,
+  doorClosedLockedSprite,
+  doorRevealLockedSprite,
   stairsSprite,
   coinSprite,
+  coin2Sprite,
   enemySprite,
   enemySmallSprite,
   heartSprite,
@@ -100,9 +133,12 @@ export {
   shieldSprite,
   keySprite,
   shopSprite,
+  metalDetectorSprite,
   livingShieldSprite,
   doorOpenerSprite,
   piggyBankSprite,
   boneFingerSprite,
   spyglassSprite,
+  extraLifeSprite,
+  lockPickSprite,
 };

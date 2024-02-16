@@ -1,5 +1,5 @@
 import * as ex from "excalibur";
-import { DOOR_WIDTH, INVENTORY_ITEM_SPACING } from "../constants";
+import { INVENTORY_ITEM_SPACING } from "../constants";
 
 export type DisplayTextPlacement = "top" | "right";
 

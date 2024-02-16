@@ -1,7 +1,6 @@
 import * as ex from "excalibur";
 import { Level1 } from "./scenes/levels/level1";
 import { WinMenu } from "./scenes/winMenu";
-import { LevelOptions } from "./scenes/levels/level";
 import { Level2 } from "./scenes/levels/level2";
 import { Level3 } from "./scenes/levels/level3";
 import { Level4 } from "./scenes/levels/level4";
@@ -24,9 +23,11 @@ import { Level20 } from "./scenes/levels/level20";
 import { Player } from "./player";
 import { SCENE_TRANSITION_DURATION } from "./constants";
 import { ShopScene } from "./scenes/shopScene";
+import { LoseMenu } from "./scenes/loseMenu";
+import { LevelOptions } from "./scenes/gameScene";
 
 export class LevelManager extends ex.Actor {
-  private level: number = 0;
+  private levelId: number = 0;
   private winThreshold: number = 20;
   private player: Player;
 
@@ -37,8 +38,8 @@ export class LevelManager extends ex.Actor {
 
   onInitialize(_engine: ex.Engine): void {}
 
-  private getCurrentLevelClass() {
-    switch (this.level) {
+  private getCurrentLevelClass(): typeof Level1 {
+    switch (this.levelId) {
       case 1:
         return Level1;
       case 2:
@@ -87,6 +88,8 @@ export class LevelManager extends ex.Actor {
   private buildLevelOptions(): LevelOptions {
     return {
       escapeLadderButton: this.player.getEscapeLadderButton(),
+      metalDetectorButton: this.player.getMetalDetectorButton(),
+      playerHasKey: this.player.hasKey(),
       keyIcon: this.player.getKeyIcon(),
       coinIcon: this.player.getCoinIcon(),
       healthBar: this.player.getHealthBar(),
@@ -103,12 +106,12 @@ export class LevelManager extends ex.Actor {
   }
 
   public loadNextLevel(engine: ex.Engine): void {
-    if (this.level === this.winThreshold) {
+    if (this.levelId === this.winThreshold) {
       this.loadWinMenu(engine);
       return;
     }
 
-    const levelLabel = `L${++this.level}`;
+    const levelLabel = `L${++this.levelId}`;
     const level = this.createLevel(engine, levelLabel);
 
     console.log("loading level:", levelLabel);
@@ -132,7 +135,7 @@ export class LevelManager extends ex.Actor {
 
   private loadWinMenu(engine: ex.Engine): void {
     const winMenu = new WinMenu();
-    this.level = 0;
+    this.levelId = 0;
 
     engine.add("win", {
       scene: winMenu,
@@ -147,10 +150,27 @@ export class LevelManager extends ex.Actor {
     engine.goto("win");
   }
 
+  public loadLoseMenu(engine: ex.Engine): void {
+    const loseMenu = new LoseMenu();
+    this.levelId = 0;
+
+    engine.add("lose", {
+      scene: loseMenu,
+      transitions: {
+        in: new ex.FadeInOut({
+          duration: SCENE_TRANSITION_DURATION,
+          direction: "in",
+          color: ex.Color.Black,
+        }),
+      },
+    });
+    engine.goto("lose");
+  }
+
   public loadShop(engine: ex.Engine): void {
     // TODO: don't instantiate new shop everytime
     const shopScene = new ShopScene(this.buildLevelOptions(), this.player);
-    const shopLabel = `shop${this.level}`;
+    const shopLabel = `shop${this.levelId}`;
 
     engine.add(shopLabel, {
       scene: shopScene,

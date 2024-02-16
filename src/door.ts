@@ -9,6 +9,7 @@ import {
   InstantiableDoorContents,
 } from "./doorContents/doorContents";
 import { DOOR_WIDTH } from "./constants";
+import { UseSpyglassEvent } from "./events";
 
 const collider = ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half);
 
@@ -16,14 +17,18 @@ export class Door extends ex.ScreenElement {
   private contents;
   private isOpen = false;
   private isRevealed = false;
+  private shouldReveal = false;
 
-  constructor(contents?: InstantiableDoorContents<DoorContents>) {
+  protected doorClosedSprite = doorClosedSprite;
+  protected doorRevealSprite = doorRevealSprite;
+
+  constructor(Contents?: InstantiableDoorContents<DoorContents>) {
     super({
       z: 2,
       collider,
     });
 
-    if (contents) this.contents = new contents();
+    if (Contents) this.contents = new Contents();
   }
 
   public setPos(x: number, y: number): void {
@@ -33,12 +38,23 @@ export class Door extends ex.ScreenElement {
 
   onInitialize(engine: ex.Engine): void {
     if (!this.isOpen && !this.isRevealed) {
-      this.graphics.use(doorClosedSprite);
+      this.graphics.use(this.doorClosedSprite);
     }
 
     this.on("pointerdown", () => {
-      if (!this.isOpen) this.onOpen(engine);
-      else this.onEnter(engine);
+      if (this.shouldReveal) {
+        const event = new UseSpyglassEvent();
+        engine.emit(event.type, event);
+        this.onReveal();
+        return;
+      }
+
+      if (!this.isOpen) {
+        this.onOpen(engine);
+        return;
+      }
+
+      this.onEnter(engine);
     });
 
     this.on("pointerup", () => {
@@ -62,9 +78,13 @@ export class Door extends ex.ScreenElement {
     return this.contents;
   }
 
+  public setShouldReveal(value: boolean): void {
+    this.shouldReveal = value;
+  }
+
   public onReveal(): void {
     this.isRevealed = true;
-    this.graphics.use(doorRevealSprite);
+    this.graphics.use(this.doorRevealSprite);
   }
 
   onOpen(engine: ex.Engine): void {

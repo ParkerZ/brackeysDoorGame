@@ -1,89 +1,72 @@
 import * as ex from "excalibur";
-import { MenuBackground } from "../../menuBackground";
 import { backgroundLevelSprite } from "../../resources";
 import { Door } from "../../door";
-import { shuffleArray } from "../../util";
+import { selectRandom, shuffleArray } from "../../util";
 import { DOOR_LAYOUTS } from "../../constants";
-import { EscapeLadderButton } from "../../ui/icons/items/escapeLadderButton";
-import { KeyIcon } from "../../ui/icons/items/keyIcon";
-import { HealthBar } from "../../ui/statusBars/healthBar";
-import { ShieldBar } from "../../ui/statusBars/shieldBar";
-import { CoinIcon } from "../../ui/icons/items/coinIcon";
-import { LivingShieldIcon } from "../../ui/icons/relics/livingShieldIcon";
-import { Relic } from "../../ui/icons/relics/relicIcon";
-import { DoorOpenerIcon } from "../../ui/icons/relics/doorOpenerIcon";
 import { GetShieldEvent } from "../../events";
 import { Coin1 } from "../../doorContents/items/coin/coin1";
 import { EnemyBase } from "../../doorContents/enemy/enemyBase";
+import { CoinBase } from "../../doorContents/items/coin/coinBase";
+import { DoorLocked } from "../../doorLocked";
+import { GameScene, LevelOptions } from "../gameScene";
+import { RelicIcon } from "../../ui/icons/relics/relicIcon";
+import {
+  DoorContents,
+  InstantiableDoorContents,
+} from "../../doorContents/doorContents";
+import { DeathGripRelic } from "../../doorContents/items/relics/deathGripRelic";
+import { DoorOpenerRelic } from "../../doorContents/items/relics/doorOpenerRelic";
+import { ExtraLifeRelic } from "../../doorContents/items/relics/extraLifeRelic";
+import { LivingShieldRelic } from "../../doorContents/items/relics/livingShieldRelic";
+import { LockPickRelic } from "../../doorContents/items/relics/lockPickRelic";
+import { PiggyBankRelic } from "../../doorContents/items/relics/piggyBankRelic";
+import { SpyglassRelic } from "../../doorContents/items/relics/spyglassRelic";
 
-export type LevelOptions = {
-  healthBar: HealthBar;
-  shieldBar: ShieldBar;
-  escapeLadderButton?: EscapeLadderButton;
-  keyIcon?: KeyIcon;
-  coinIcon?: CoinIcon;
-  relicIcons: (LivingShieldIcon | DoorOpenerIcon)[];
-};
-
-export class Level extends ex.Scene {
+export class Level extends GameScene {
   protected doors: Door[];
-  protected escapeLadderButton: EscapeLadderButton | undefined;
-  protected keyIcon: KeyIcon | undefined;
-  protected coinIcon: CoinIcon | undefined;
-  protected healthBar: HealthBar;
-  protected shieldBar: ShieldBar;
-  protected relicIcons: LivingShieldIcon[];
   private layoutIndex: number;
 
   constructor(unshuffledDoors: Door[], index: number, options: LevelOptions) {
-    super();
+    super(options, backgroundLevelSprite);
 
     this.doors = shuffleArray(unshuffledDoors);
-
-    this.escapeLadderButton = options?.escapeLadderButton;
-    this.keyIcon = options?.keyIcon;
-    this.coinIcon = options?.coinIcon;
-    this.healthBar = options.healthBar;
-    this.shieldBar = options.shieldBar;
-    this.relicIcons = options.relicIcons;
 
     this.layoutIndex = index - 1;
   }
 
-  onInitialize(engine: ex.Engine) {
-    const bg = new MenuBackground(backgroundLevelSprite);
+  public setDoor(doors: Door[]): void {
+    this.doors = doors;
+  }
 
-    engine.add(bg);
+  onInitialize(engine: ex.Engine) {
+    super.onInitialize(engine);
 
     if (!this.doors.length || !DOOR_LAYOUTS[this.layoutIndex]) return;
 
-    this.relicIcons.forEach((icon) => {
-      this.handleRelic(engine, icon);
-    });
-
     const doorLayout = DOOR_LAYOUTS[this.layoutIndex];
     this.doors.forEach((door, i) => {
-      door.setPos(
+      let doorToAdd = door;
+
+      // if locked door is empty, add a relic
+      if (doorToAdd instanceof DoorLocked && !doorToAdd.getContents()) {
+        const existingContents = doorToAdd.getContents();
+
+        doorToAdd = new DoorLocked(selectRandom(this.getAvailableRelics()));
+      }
+
+      doorToAdd.setPos(
         engine.halfDrawWidth + doorLayout[i].x,
         engine.halfDrawHeight + doorLayout[i].y
       );
-      engine.add(door);
+      engine.add(doorToAdd);
     });
 
-    engine.add(this.healthBar);
-    engine.add(this.shieldBar);
-
-    if (this.escapeLadderButton) {
-      engine.add(this.escapeLadderButton);
+    if (this.playerHasKey) {
+      this.setDoorsUnlockable();
     }
 
-    if (this.keyIcon) {
-      engine.add(this.keyIcon);
-    }
-
-    if (this.coinIcon) {
-      engine.add(this.coinIcon);
-    }
+    this.createMetalDetectorListener(engine);
+    this.createKeyListener(engine);
   }
 
   private openRandomDoor(engine: ex.Engine): void {
@@ -93,19 +76,42 @@ export class Level extends ex.Scene {
   }
 
   private revealRandomEnemyDoor(): void {
-    console.log(
-      "enemies",
-      this.doors.filter((door) => door.getContents() instanceof EnemyBase)
-    );
     shuffleArray(
       this.doors.filter((door) => door.getContents() instanceof EnemyBase)
     )[0].onReveal();
   }
 
-  private handleRelic(
-    engine: ex.Engine,
-    icon: LivingShieldIcon | DoorOpenerIcon
-  ): void {
+  private createSpyglassListener(engine: ex.Engine): void {
+    engine.on("usespyglass", () => {
+      this.doors.forEach((door) => door.setShouldReveal(false));
+    });
+  }
+
+  private createMetalDetectorListener(engine: ex.Engine): void {
+    engine.on("usemetaldetector", () => {
+      this.doors.forEach((door, i) => {
+        if (door.getContents() instanceof CoinBase) {
+          door.onOpen(engine);
+        }
+      });
+    });
+  }
+
+  private createKeyListener(engine: ex.Engine): void {
+    engine.on("getkey", () => {
+      this.setDoorsUnlockable();
+    });
+  }
+
+  private setDoorsUnlockable(): void {
+    this.doors.forEach((door) => {
+      if (door instanceof DoorLocked) {
+        door.setIsUnlockable(true);
+      }
+    });
+  }
+
+  protected handleRelic(engine: ex.Engine, icon: RelicIcon): void {
     switch (icon.getRelic()) {
       case "livingshield":
         const event = new GetShieldEvent();
@@ -123,10 +129,60 @@ export class Level extends ex.Scene {
         this.revealRandomEnemyDoor();
         break;
       case "spyglass":
-        // TODO: implement
+        this.createSpyglassListener(engine);
+        this.doors.forEach((door) => door.setShouldReveal(true));
         break;
     }
 
-    engine.add(icon);
+    super.handleRelic(engine, icon);
+  }
+
+  onDeactivate(context: ex.SceneActivationContext<undefined>): void {
+    this.doors = [];
+  }
+
+  protected convertRelicToShopRelic(
+    relic: InstantiableDoorContents<DoorContents>
+  ) {
+    switch (relic) {
+      case DeathGripRelic:
+        return "deathgrip";
+      case DoorOpenerRelic:
+        return "dooropener";
+      case ExtraLifeRelic:
+        return "extralife";
+      case LivingShieldRelic:
+        return "livingshield";
+      case LockPickRelic:
+        return "lockpick";
+      case PiggyBankRelic:
+        return "piggybank";
+      case SpyglassRelic:
+        return "spyglass";
+      default:
+        return "deathgrip";
+    }
+  }
+
+  protected getAvailableRelics() {
+    const possibleRelics = [
+      DeathGripRelic,
+      DoorOpenerRelic,
+      ExtraLifeRelic,
+      LivingShieldRelic,
+      LockPickRelic,
+      PiggyBankRelic,
+      SpyglassRelic,
+    ];
+
+    const ownedRelics = this.relicIcons.map((relic) => relic.getRelic());
+
+    const availableRelics: InstantiableDoorContents<DoorContents>[] =
+      possibleRelics.filter(
+        (shopRelic) =>
+          !ownedRelics.includes(this.convertRelicToShopRelic(shopRelic))
+      );
+
+    return availableRelics;
   }
 }

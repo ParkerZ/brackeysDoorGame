@@ -9,7 +9,9 @@ export class Shield extends DoorContents {
     super(new GetShieldEvent(), shieldSprite, SHIELD_TOOLTIP);
   }
 
-  onOpen(_engine: ex.Engine): void {}
+  onOpen(_engine: ex.Engine): void {
+    this.setIsTooltipEnabled(true);
+  }
 
   onEnter(engine: ex.Engine): void {
     engine.emit(this.event.type, this.event);

@@ -1,10 +1,10 @@
 import * as ex from "excalibur";
-import { Level, LevelOptions } from "./level";
+import { Level } from "./level";
 import { StairsNextLevel } from "../../doorContents/stairsNextLevel";
 import { Door } from "../../door";
 import { Coin1 } from "../../doorContents/items/coin/coin1";
 import { Enemy1 } from "../../doorContents/enemy/enemy1";
-import { HealthPotion } from "../../doorContents/items/healthPotion";
+import { LevelOptions } from "../gameScene";
 
 export class Level4 extends Level {
   constructor(options: LevelOptions) {

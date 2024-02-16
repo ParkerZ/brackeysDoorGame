@@ -10,7 +10,9 @@ export class Key extends DoorContents {
     super(new GetKeyEvent(), keySprite, KEY_TOOLTIP);
   }
 
-  onOpen(_engine: ex.Engine): void {}
+  onOpen(_engine: ex.Engine): void {
+    this.setIsTooltipEnabled(true);
+  }
 
   onEnter(engine: ex.Engine): void {
     engine.emit(this.event.type, this.event);

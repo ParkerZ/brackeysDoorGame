@@ -60,6 +60,10 @@ engine.on("getescapeladder", () => {
   player.addEscapeLadder(engine);
 });
 
+engine.on("getmetaldetector", () => {
+  player.addMetalDetector(engine);
+});
+
 engine.on("getshield", () => {
   player.addShield();
 });
@@ -79,7 +83,7 @@ engine.on("takedamage", (event) => {
   let damageEvent = event as TakeDamageEvent;
   if (damageEvent.type !== "takedamage") return;
 
-  player.takeDamage(damageEvent.damage);
+  player.takeDamage(engine, damageEvent.damage);
 });
 
 engine.on("useescapeladder", () => {
@@ -87,12 +91,23 @@ engine.on("useescapeladder", () => {
   levelManager.loadNextLevel(engine);
 });
 
+engine.on("usemetaldetector", () => {
+  player.useMetalDetector(engine);
+});
+
 engine.on("getrelic", (event) => {
   let relicEvent = event as GetRelicEvent;
   if (relicEvent.type !== "getrelic") return;
 
-  console.log("GET RELIC", relicEvent.relic);
   player.addRelic(engine, relicEvent.relic);
+});
+
+engine.on("playerdie", () => {
+  levelManager.loadLoseMenu(engine);
+});
+
+engine.on("unlockdoor", () => {
+  player.unlockDoor(engine);
 });
 
 // Start the engine

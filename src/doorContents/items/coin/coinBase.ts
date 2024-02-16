@@ -1,11 +1,10 @@
 import * as ex from "excalibur";
-import { coinSprite } from "../../../resources";
 import { AddCoinsEvent } from "../../../events";
 import { DoorContents } from "../../doorContents";
 
 export class CoinBase extends DoorContents {
-  constructor(numCoins: number) {
-    super(new AddCoinsEvent(numCoins), coinSprite);
+  constructor(numCoins: number, sprite: ex.Sprite) {
+    super(new AddCoinsEvent(numCoins), sprite);
   }
 
   onOpen(_engine: ex.Engine): void {}

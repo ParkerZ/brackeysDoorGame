@@ -15,31 +15,44 @@ import { DoorOpenerIcon } from "./ui/icons/relics/doorOpenerIcon";
 import { PiggyBankIcon } from "./ui/icons/relics/piggyBankIcon";
 import { DeathGripIcon } from "./ui/icons/relics/deathGripIcon";
 import { SpyglassIcon } from "./ui/icons/relics/spyglassIcon";
+import { PlayerDieEvent } from "./events";
+import { ExtraLifeIcon } from "./ui/icons/relics/extraLifeIcon";
+import { MetalDetectorButton } from "./ui/icons/items/metalDetectorButton";
+import { LockPickIcon } from "./ui/icons/relics/lockPickIcon";
 
 export class Player extends ex.Actor {
   private isInit = false;
 
+  private maxHealth: number = 3;
   private health: number = 3;
   private coins: number = 0;
   private shield: number = 0;
   private numKeys: number = 0;
   private numEscapeLadders: number = 0;
+  private numMetalDetectors: number = 0;
 
   private escapeLadderButton: EscapeLadderButton;
+  private metalDetectorButton: MetalDetectorButton;
   private keyIcon: KeyIcon;
   private coinIcon: CoinIcon;
   private healthBar: HealthBar;
   private shieldBar: ShieldBar;
 
-  private displayIcons: (EscapeLadderButton | KeyIcon | CoinIcon)[] = [];
+  private displayIcons: (
+    | EscapeLadderButton
+    | MetalDetectorButton
+    | KeyIcon
+    | CoinIcon
+  )[] = [];
   private displayRelics: LivingShieldIcon[] = [];
 
   constructor() {
     super();
     this.escapeLadderButton = new EscapeLadderButton(0, 0);
+    this.metalDetectorButton = new MetalDetectorButton(0, 0);
     this.keyIcon = new KeyIcon(0, 0);
     this.coinIcon = new CoinIcon(0, 0);
-    this.healthBar = new HealthBar(0, 0, this.health);
+    this.healthBar = new HealthBar(0, 0, this.maxHealth);
     this.shieldBar = new ShieldBar(0, 0, this.shield);
   }
 
@@ -89,7 +102,11 @@ export class Player extends ex.Actor {
     this.coins += value;
     this.coinIcon.setValue(this.coins);
 
-    if (this.coins === 1) {
+    const hasCoinsIcon = this.displayIcons.find(
+      (icon) => icon === this.coinIcon
+    );
+
+    if (!hasCoinsIcon) {
       this.displayIcons.push(this.coinIcon);
       this.setInventoryIconPositions();
       setTimeout(() => {
@@ -123,11 +140,13 @@ export class Player extends ex.Actor {
   }
 
   public gainHealth(value: number): void {
+    if (this.health === this.maxHealth) return;
+
     this.health += value;
     this.healthBar.setCurrHearts(this.health);
   }
 
-  public takeDamage(value: number): void {
+  public takeDamage(engine: ex.Engine, value: number): void {
     if (this.shield > 0) {
       this.shield--;
       this.shieldBar.setCurrShields(this.shield);
@@ -135,6 +154,30 @@ export class Player extends ex.Actor {
       this.health -= value;
       this.healthBar.setCurrHearts(this.health);
     }
+
+    if (this.health <= 0) {
+      this.handleNoHealth(engine);
+    }
+  }
+
+  private handleNoHealth(engine: ex.Engine): void {
+    const extraLifeRelicIndex = this.displayRelics.findIndex(
+      (relic) => relic instanceof ExtraLifeIcon
+    );
+
+    if (extraLifeRelicIndex !== -1) {
+      this.gainHealth(this.maxHealth - this.health);
+
+      engine.remove(this.displayRelics[extraLifeRelicIndex]);
+      setTimeout(() => {
+        this.displayRelics.splice(extraLifeRelicIndex, 1);
+        this.setRelicIconPositions();
+      }, INVENTORY_ITEM_PLACEMENT_MS);
+      return;
+    }
+
+    const event = new PlayerDieEvent();
+    engine.emit(event.type, event);
   }
 
   public getHealthBar(): HealthBar {
@@ -176,6 +219,42 @@ export class Player extends ex.Actor {
     return this.numEscapeLadders ? this.escapeLadderButton : undefined;
   }
 
+  public useMetalDetector(engine: ex.Engine): void {
+    this.numMetalDetectors--;
+    console.log(this.numMetalDetectors);
+
+    if (this.numMetalDetectors === 0) {
+      engine.remove(this.metalDetectorButton);
+      setTimeout(() => {
+        this.displayIcons.splice(
+          this.displayIcons.findIndex(
+            (icon) => icon === this.metalDetectorButton
+          ),
+          1
+        );
+        this.setInventoryIconPositions();
+      }, INVENTORY_ITEM_PLACEMENT_MS);
+    }
+  }
+
+  public addMetalDetector(engine: ex.Engine): void {
+    this.numMetalDetectors++;
+
+    this.metalDetectorButton.setValue(this.numMetalDetectors);
+
+    if (this.numMetalDetectors === 1) {
+      this.displayIcons.push(this.metalDetectorButton);
+      this.setInventoryIconPositions();
+      setTimeout(() => {
+        engine.add(this.metalDetectorButton);
+      }, INVENTORY_ITEM_PLACEMENT_MS);
+    }
+  }
+
+  public getMetalDetectorButton(): MetalDetectorButton | undefined {
+    return this.numMetalDetectors ? this.metalDetectorButton : undefined;
+  }
+
   public addShield(): void {
     this.shield += 1;
     this.shieldBar.setCurrShields(this.shield);
@@ -203,6 +282,38 @@ export class Player extends ex.Actor {
     return this.numKeys ? this.keyIcon : undefined;
   }
 
+  public hasKey(): boolean {
+    const hasLockpickRelic = this.displayRelics.findIndex(
+      (relic) => relic instanceof LockPickIcon
+    );
+
+    return hasLockpickRelic >= 0 || this.numKeys > 0;
+  }
+
+  private useKey(engine: ex.Engine): void {
+    this.numKeys--;
+
+    if (this.numKeys === 0) {
+      engine.remove(this.keyIcon);
+      setTimeout(() => {
+        this.displayIcons.splice(
+          this.displayIcons.findIndex((icon) => icon === this.keyIcon),
+          1
+        );
+        this.setInventoryIconPositions();
+      }, INVENTORY_ITEM_PLACEMENT_MS);
+    }
+  }
+
+  public unlockDoor(engine: ex.Engine): void {
+    const hasLockpickRelic = this.displayRelics.findIndex(
+      (relic) => relic instanceof LockPickIcon
+    );
+
+    if (hasLockpickRelic >= 0) return;
+    this.useKey(engine);
+  }
+
   private getRelicIconClass(relic: Relic) {
     switch (relic) {
       case "livingshield":
@@ -215,6 +326,10 @@ export class Player extends ex.Actor {
         return DeathGripIcon;
       case "spyglass":
         return SpyglassIcon;
+      case "extralife":
+        return ExtraLifeIcon;
+      case "lockpick":
+        return LockPickIcon;
       default:
         return LivingShieldIcon;
     }
@@ -225,7 +340,6 @@ export class Player extends ex.Actor {
     const relicIcon = new IconClass(0, 0);
 
     this.displayRelics.push(relicIcon);
-    console.log("relics", this.displayRelics);
     this.setRelicIconPositions();
     setTimeout(() => {
       engine.add(relicIcon);
