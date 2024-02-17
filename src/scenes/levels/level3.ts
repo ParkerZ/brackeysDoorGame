@@ -3,7 +3,6 @@ import { Level } from "./level";
 import { StairsNextLevel } from "../../doors/contents/stairsNextLevel";
 import { Door } from "../../doors/door";
 import { Coin1 } from "../../doors/contents/items/coins/coin1";
-import { ShopDoor } from "../../doors/contents/shopDoor";
 import { LevelOptions } from "../gameScene";
 import { DisplayText } from "../../ui/displayText";
 

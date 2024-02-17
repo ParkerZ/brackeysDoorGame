@@ -44,7 +44,7 @@ export class Door extends ex.ScreenElement {
     }
 
     this.on("pointerdown", () => {
-      if (this.shouldReveal) {
+      if (this.shouldReveal && !this.isOpen) {
         const event = new UseSpyglassEvent();
         engine.emit(event.type, event);
         this.onReveal();

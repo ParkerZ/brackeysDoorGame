@@ -6,6 +6,7 @@ import { STEPS_VOLUME } from "../../constants";
 
 export class StairsNextLevel extends DoorContents {
   protected isOpenableByRelic = false;
+  protected isEntered = false;
 
   constructor() {
     super(new LoadNextLevelEvent(), stairsSprite);
@@ -14,6 +15,9 @@ export class StairsNextLevel extends DoorContents {
   onOpen(_engine: ex.Engine): void {}
 
   onEnter(engine: ex.Engine): void {
+    if (this.isEntered) return;
+
+    this.isEntered = true;
     Resources.sounds.steps.play(STEPS_VOLUME);
     setTimeout(() => {
       engine.emit(this.event.type);

@@ -72,7 +72,11 @@ export class Level extends GameScene {
 
   private openRandomDoor(engine: ex.Engine): void {
     shuffleArray(
-      this.doors.filter((door) => door.getContents()?.getIsOpenableByRelic())
+      this.doors.filter(
+        (door) =>
+          !(door instanceof DoorLocked) &&
+          door.getContents()?.getIsOpenableByRelic()
+      )
     )[0].onOpen(engine);
   }
 

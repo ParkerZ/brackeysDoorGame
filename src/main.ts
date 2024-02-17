@@ -113,6 +113,8 @@ engine.on("getrelic", (event) => {
 });
 
 engine.on("playerdie", () => {
+  Resources.sounds.sountrack.pause();
+  Resources.sounds.lose.play();
   levelManager.loadLoseMenu(engine);
 });
 
