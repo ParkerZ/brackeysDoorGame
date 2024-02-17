@@ -2,7 +2,7 @@ import * as ex from "excalibur";
 import { backgroundLevelSprite } from "../../resources";
 import { Door } from "../../doors/door";
 import { selectRandom, shuffleArray } from "../../util";
-import { DOOR_LAYOUTS } from "../../constants";
+import { DOOR_LAYOUTS, DOOR_WIDTH } from "../../constants";
 import { GetShieldEvent } from "../../events";
 import { Coin1 } from "../../doors/contents/items/coins/coin1";
 import { EnemyBase } from "../../doors/contents/enemy/enemyBase";
@@ -68,6 +68,7 @@ export class Level extends GameScene {
 
     this.createMetalDetectorListener(engine);
     this.createKeyListener(engine);
+    this.createDeathListener(engine);
   }
 
   private openRandomDoor(engine: ex.Engine): void {
@@ -108,6 +109,14 @@ export class Level extends GameScene {
     });
   }
 
+  private createDeathListener(engine: ex.Engine): void {
+    engine.on("playerdie", () => {
+      this.doors.forEach((door, i) => {
+        door.setIsDisabled(true);
+      });
+    });
+  }
+
   private setDoorsUnlockable(): void {
     this.doors.forEach((door) => {
       if (door instanceof DoorLocked) {
@@ -126,9 +135,15 @@ export class Level extends GameScene {
         this.openRandomDoor(engine);
         break;
       case "piggybank":
-        this.doors = this.doors.map((door) =>
-          door.getContents() ? door : new Door(Coin1)
-        );
+        this.doors.forEach((door) => {
+          if (door.getContents() === undefined) {
+            door.setContents(Coin1);
+            door.setPos(
+              door.pos.x + DOOR_WIDTH / 2,
+              door.pos.y + DOOR_WIDTH / 2
+            );
+          }
+        });
         break;
       case "deathgrip":
         this.revealRandomEnemyDoor();

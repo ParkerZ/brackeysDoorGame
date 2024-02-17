@@ -20,9 +20,11 @@ export class Door extends ex.ScreenElement {
   private isOpen = false;
   private isRevealed = false;
   private shouldReveal = false;
+  private isDisabled = false;
 
   protected doorClosedSprite = doorClosedSprite;
   protected doorRevealSprite = doorRevealSprite;
+  protected doorOpenSprite = doorOpenSprite;
 
   constructor(Contents?: InstantiableDoorContents<DoorContents>) {
     super({
@@ -44,6 +46,8 @@ export class Door extends ex.ScreenElement {
     }
 
     this.on("pointerdown", () => {
+      if (this.isDisabled) return;
+
       if (this.shouldReveal && !this.isOpen) {
         const event = new UseSpyglassEvent();
         engine.emit(event.type, event);
@@ -76,6 +80,10 @@ export class Door extends ex.ScreenElement {
     this.shouldReveal = value;
   }
 
+  public setIsDisabled(val: boolean) {
+    this.isDisabled = val;
+  }
+
   public onReveal(): void {
     Resources.sounds.reveal.play();
     this.isRevealed = true;
@@ -87,7 +95,7 @@ export class Door extends ex.ScreenElement {
     this.playOpenDoorSound();
 
     setTimeout(() => {
-      this.graphics.use(doorOpenSprite);
+      this.graphics.use(this.doorOpenSprite);
 
       if (this.contents) {
         engine.add(this.contents);
