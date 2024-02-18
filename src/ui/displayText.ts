@@ -66,9 +66,14 @@ export class DisplayText extends ex.ScreenElement {
     engine: ex.Engine
   ): ex.Vector {
     if (this.placement === "right") {
-      return ex.vec(INVENTORY_ITEM_SPACING, 8);
+      return ex.vec(INVENTORY_ITEM_SPACING, 27);
     } else {
-      return this.clipOffset(ex.vec(-width / 2, -82), height, width, engine);
+      return this.clipOffset(
+        ex.vec(-width / 2 - 4, -82),
+        height,
+        width,
+        engine
+      );
     }
   }
 
@@ -78,10 +83,10 @@ export class DisplayText extends ex.ScreenElement {
     engine: ex.Engine
   ): ex.Vector {
     if (this.placement === "right") {
-      return ex.vec(INVENTORY_ITEM_SPACING + 2, 10);
+      return ex.vec(INVENTORY_ITEM_SPACING + 2, 29);
     } else {
       return this.clipOffset(
-        ex.vec((4 - width) / 2, -80),
+        ex.vec((4 - width) / 2 - 4, -80),
         height,
         width,
         engine
@@ -95,9 +100,9 @@ export class DisplayText extends ex.ScreenElement {
     engine: ex.Engine
   ): ex.Vector {
     if (this.placement === "right") {
-      return ex.vec(width / 2 + INVENTORY_ITEM_SPACING, 26);
+      return ex.vec(width / 2 + INVENTORY_ITEM_SPACING, 44);
     } else {
-      return this.clipOffset(ex.vec(0, -64), height, width, engine);
+      return this.clipOffset(ex.vec(-4, -64), height, width, engine);
     }
   }
 

@@ -3,6 +3,7 @@ import { DOOR_CONTENTS_SPRITE_SCALE, DOOR_SPRITE_SCALE } from "./constants";
 
 // sounds
 const soundtrackFile = require("../res/sounds/soundtrack.wav");
+const winSound = require("../res/sounds/win.wav");
 const loseSound = require("../res/sounds/lose.wav");
 const doorOpen1Sound = require("../res/sounds/doorOpen1.mp3");
 const doorOpen2Sound = require("../res/sounds/doorOpen2.mp3");
@@ -19,12 +20,13 @@ const blockSound = require("../res/sounds/block.wav");
 const useSound = require("../res/sounds/use.wav");
 const stepsSound = require("../res/sounds/steps.wav");
 
-const bgMenuFile = require("../res/main.png");
+const bgMenuFile = require("../res/title.png");
 const bgLevelFile = require("../res/wall2.png");
-const bgWinFile = require("../res/win.png");
-const bgLoseFile = require("../res/lose.png");
+const bgWinFile = require("../res/won.png");
+const bgLoseFile = require("../res/lost.png");
 
 const doorBackingFile = require("../res/doorBg.png");
+const doorBackingHoverFile = require("../res/doorBgHover.png");
 const doorClosedFile = require("../res/doorClosed.png");
 const doorClosedHoverFile = require("../res/doorClosedHover.png");
 const doorOpenFrame1File = require("../res/doorOpening1.png");
@@ -69,6 +71,7 @@ const lockPickFile = require("../res/skeletonKey.png");
 const Resources = {
   sounds: {
     sountrack: new ex.Sound(soundtrackFile),
+    win: new ex.Sound(winSound),
     lose: new ex.Sound(loseSound),
     doorOpen1: new ex.Sound(doorOpen1Sound),
     doorOpen2: new ex.Sound(doorOpen2Sound),
@@ -92,6 +95,7 @@ const Resources = {
   backgroundLose: new ex.ImageSource(bgLoseFile),
 
   doorBacking: new ex.ImageSource(doorBackingFile),
+  doorBackingHover: new ex.ImageSource(doorBackingHoverFile),
   doorClosed: new ex.ImageSource(doorClosedFile),
   doorClosedHover: new ex.ImageSource(doorClosedHoverFile),
   doorOpeningFrame1: new ex.ImageSource(doorOpenFrame1File),
@@ -142,6 +146,7 @@ const backgroundWinSprite = Resources.backgroundWin.toSprite();
 const backgroundLoseSprite = Resources.backgroundLose.toSprite();
 
 const doorBackingSprite = Resources.doorBacking.toSprite();
+const doorBackingHoverSprite = Resources.doorBackingHover.toSprite();
 const doorClosedSprite = Resources.doorClosed.toSprite();
 const doorClosedHoverSprite = Resources.doorClosedHover.toSprite();
 const doorOpeningFrame1Sprite = Resources.doorOpeningFrame1.toSprite();
@@ -154,6 +159,7 @@ const doorRevealLockedSprite = Resources.doorRevealLocked.toSprite();
 const doorRevealUnlockingSprite = Resources.doorRevealUnlocking.toSprite();
 
 doorBackingSprite.scale = DOOR_SPRITE_SCALE;
+doorBackingHoverSprite.scale = DOOR_SPRITE_SCALE;
 doorClosedSprite.scale = DOOR_SPRITE_SCALE;
 doorClosedHoverSprite.scale = DOOR_SPRITE_SCALE;
 doorOpeningFrame1Sprite.scale = DOOR_SPRITE_SCALE;
@@ -295,6 +301,7 @@ export {
   backgroundWinSprite,
   backgroundLoseSprite,
   doorBackingSprite,
+  doorBackingHoverSprite,
   doorClosedSprite,
   doorClosedHoverSprite,
   doorOpenSprite,

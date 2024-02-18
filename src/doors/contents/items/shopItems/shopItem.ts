@@ -83,7 +83,16 @@ export class ShopItem extends ex.ScreenElement {
     });
 
     this.on("pointerleave", () => {
-      if (this.tooltip) engine.remove(this.tooltip);
+      setTimeout(() => {
+        // Wait at least one frame before checking mouse pos
+        if (
+          !this.collider.bounds.contains(
+            engine.input.pointers.primary.lastWorldPos
+          )
+        ) {
+          if (this.tooltip) engine.remove(this.tooltip);
+        }
+      }, Math.ceil(1000 / 60));
     });
 
     this.on("kill", () => {

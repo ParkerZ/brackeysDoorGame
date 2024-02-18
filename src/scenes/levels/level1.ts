@@ -2,7 +2,6 @@ import * as ex from "excalibur";
 import { Level } from "./level";
 import { StairsNextLevel } from "../../doors/contents/stairsNextLevel";
 import { Door } from "../../doors/door";
-import { LoadFirstLevelEvent } from "../../events";
 import { LevelOptions } from "../gameScene";
 import { DisplayText } from "../../ui/displayText";
 
@@ -19,7 +18,5 @@ export class Level1 extends Level {
     engine.add(text);
 
     super.onInitialize(engine);
-    const event = new LoadFirstLevelEvent();
-    engine.emit(event.type, event);
   }
 }

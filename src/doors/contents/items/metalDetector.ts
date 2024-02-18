@@ -18,7 +18,9 @@ export class MetalDetector extends DoorContents {
   }
 
   onEnter(engine: ex.Engine): void {
+    this.setIsTooltipEnabled(false);
     engine.emit(this.event.type, this.event);
+    this.setIsHovered(engine, false);
     this.kill();
   }
 }

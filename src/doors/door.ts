@@ -2,6 +2,7 @@ import * as ex from "excalibur";
 import {
   Resources,
   doorBackingSprite,
+  doorClosedHoverSprite,
   doorClosedSprite,
   doorOpenSprite,
   doorOpeningAnimation,
@@ -20,18 +21,22 @@ import {
 } from "../constants";
 import { UseSpyglassEvent } from "../events";
 import { selectRandom } from "../util";
+import { DoorBacking } from "./doorBacking";
 
 type DoorState = "closed" | "open" | "reveal" | "disabled" | "locked";
 
 export class Door extends ex.ScreenElement {
   private contents;
   private shouldReveal = false;
+  private isHovered = false;
 
   protected state: DoorState = "closed";
   protected doorBackingSprite = doorBackingSprite;
   protected doorClosedSprite = doorClosedSprite;
   protected doorRevealSprite = doorRevealSprite;
   protected doorOpenSprite = doorOpenSprite;
+  protected doorClosedHoverSprite = doorClosedHoverSprite;
+  protected background: DoorBacking;
 
   constructor(Contents?: InstantiableDoorContents<DoorContents>) {
     super({
@@ -46,20 +51,18 @@ export class Door extends ex.ScreenElement {
     this.pointer.useColliderShape = true;
     this.pointer.useGraphicsBounds = false;
 
+    this.background = new DoorBacking();
     if (Contents) this.contents = new Contents();
   }
 
   public setPos(x: number, y: number): void {
     this.pos = ex.vec(x - DOOR_WIDTH / 2, y - DOOR_WIDTH / 2);
     this.contents?.setPos(x, y);
+    this.background.setPos(this.pos.x, this.pos.y);
   }
 
   onInitialize(engine: ex.Engine): void {
-    const backing = new ex.ScreenElement({ pos: this.pos, z: 0 });
-    backing.graphics.show(this.doorBackingSprite, {
-      offset: ex.vec(DOOR_SPRITE_OFFSET_X, DOOR_SPRITE_OFFSET_Y),
-    });
-    engine.add(backing);
+    engine.add(this.background);
 
     if (this.state === "closed") {
       this.updateGraphics(this.doorClosedSprite);
@@ -81,6 +84,27 @@ export class Door extends ex.ScreenElement {
       }
 
       this.onEnter(engine);
+    });
+
+    this.on("pointerenter", () => {
+      this.isHovered = true;
+      this.background.setIsHovered(true);
+      this.contents?.setIsHovered(engine, true);
+    });
+
+    this.on("pointerleave", () => {
+      setTimeout(() => {
+        // Wait at least one frame before checking mouse pos
+        if (
+          !this.collider.bounds.contains(
+            engine.input.pointers.primary.lastWorldPos
+          )
+        ) {
+          this.isHovered = false;
+          this.background.setIsHovered(false);
+          this.contents?.setIsHovered(engine, false);
+        }
+      }, Math.ceil(1000 / 60));
     });
 
     if (this.contents) {
@@ -130,6 +154,7 @@ export class Door extends ex.ScreenElement {
         if (this.contents) {
           engine.add(this.contents);
           this.contents.onOpen(engine);
+          this.contents.setIsHovered(engine, this.isHovered);
         }
 
         this.state = "open";

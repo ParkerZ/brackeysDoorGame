@@ -60,7 +60,32 @@ export class Player extends ex.Actor {
   }
 
   public initialize(engine: ex.Engine) {
-    this.isInit = true;
+    this.health = 3;
+    this.coins = 0;
+    this.shield = 0;
+    this.numKeys = 0;
+    this.numEscapeLadders = 0;
+    this.numMetalDetectors = 0;
+
+    this.escapeLadderButton.setValue(this.numEscapeLadders);
+    this.metalDetectorButton.setValue(this.numMetalDetectors);
+    this.keyIcon.setValue(this.numKeys);
+    this.coinIcon.setValue(this.coins);
+    this.healthBar.setCurrHearts(this.health);
+    this.shieldBar.setCurrShields(this.shield);
+
+    engine.remove(this.coinIcon);
+    engine.remove(this.escapeLadderButton);
+    engine.remove(this.metalDetectorButton);
+    engine.remove(this.keyIcon);
+
+    this.displayIcons.forEach((icon) => engine.remove(icon));
+    this.displayIcons = [];
+    this.displayRelics.forEach((icon) => engine.remove(icon));
+    this.displayRelics = [];
+
+    this.setInventoryIconPositions();
+    this.setRelicIconPositions();
 
     this.healthBar.setPos(
       ex.vec(engine.halfDrawWidth, (engine.halfDrawHeight * 7) / 4)
@@ -74,13 +99,11 @@ export class Player extends ex.Actor {
     );
 
     setTimeout(() => {
+      if (this.isInit) return;
       engine.add(this.healthBar);
       engine.add(this.shieldBar);
+      this.isInit = true;
     }, INVENTORY_ITEM_PLACEMENT_MS);
-  }
-
-  public getIsInitialized(): boolean {
-    return this.isInit;
   }
 
   private setInventoryIconPositions(): void {

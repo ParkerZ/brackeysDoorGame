@@ -4,6 +4,7 @@ export type EventType =
   | "loadnextlevel"
   | "loadfirstlevel"
   | "loadshop"
+  | "loadreset"
   | "gethealthpotion"
   | "getescapeladder"
   | "getmetaldetector"
@@ -33,6 +34,12 @@ export class LoadShopEvent {
 
 export class LoadFirstLevelEvent {
   public type: EventType = "loadfirstlevel";
+
+  constructor() {}
+}
+
+export class LoadResetEvent {
+  public type: EventType = "loadreset";
 
   constructor() {}
 }

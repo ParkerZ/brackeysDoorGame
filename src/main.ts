@@ -9,7 +9,11 @@ import {
   GetRelicEvent,
   TakeDamageEvent,
 } from "./events";
-import { SCENE_TRANSITION_DURATION, SOUNDTRACK_VOLUME } from "./constants";
+import {
+  LOSE_VOLUME,
+  SCENE_TRANSITION_DURATION,
+  SOUNDTRACK_VOLUME,
+} from "./constants";
 
 function main(): void {
   const engine = new ex.Engine({
@@ -49,11 +53,22 @@ function main(): void {
     levelManager.loadNextLevel(engine);
   });
 
-  engine.on("loadfirstlevel", () => {
+  engine.on("loadreset", () => {
     Resources.sounds.sountrack.loop = true;
     Resources.sounds.sountrack.play(SOUNDTRACK_VOLUME);
 
     player.initialize(engine);
+    levelManager.loadFirstLevel(engine);
+  });
+
+  engine.on("loadfirstlevel", () => {
+    Resources.sounds.sountrack.loop = true;
+    Resources.sounds.sountrack.play(SOUNDTRACK_VOLUME);
+
+    levelManager.loadFirstLevel(engine);
+    setTimeout(() => {
+      player.initialize(engine);
+    }, SCENE_TRANSITION_DURATION - 10);
   });
 
   engine.on("loadshop", () => {
@@ -122,7 +137,7 @@ function main(): void {
     engine.emit(event.type, event);
 
     Resources.sounds.sountrack.pause();
-    Resources.sounds.lose.play();
+    Resources.sounds.lose.play(LOSE_VOLUME);
     levelManager.loadLoseMenu(engine);
   });
 
@@ -138,28 +153,5 @@ function main(): void {
   // For test hook
   (window as any).engine = engine;
 }
-
-async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
-  return new Promise((resolve, reject) => {
-    // repeatedly poll check
-    const poller = setInterval(async () => {
-      try {
-        await document.fonts.load(font);
-      } catch (err) {
-        reject(err);
-      }
-      if (document.fonts.check(font)) {
-        clearInterval(poller);
-        resolve(true);
-      }
-    }, interval);
-    setTimeout(() => clearInterval(poller), timeout);
-  });
-}
-
-// Load font before game start
-// waitForFontLoad("Micro 5").then(() => {
-//   main();
-// });
 
 main();

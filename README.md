@@ -37,4 +37,5 @@ Coming soon
 - Lose: https://freesound.org/people/BloodPixelHero/sounds/572938/
 - Steps: https://freesound.org/people/areniporgen/sounds/712084/
 - Door: https://freesound.org/people/AUDACITIER/sounds/632328/
+- Win: https://freesound.org/people/suntemple/sounds/253177/
 - Other: https://sfxr.me/

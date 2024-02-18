@@ -45,14 +45,6 @@ export abstract class DoorContents extends ex.ScreenElement {
       ),
     });
 
-    this.on("pointerenter", () => {
-      if (this.tooltip && this.isTooltipEnabled) engine.add(this.tooltip);
-    });
-
-    this.on("pointerleave", () => {
-      if (this.tooltip && this.isTooltipEnabled) engine.remove(this.tooltip);
-    });
-
     this.on("kill", () => {
       if (this.tooltip && this.isTooltipEnabled) engine.remove(this.tooltip);
     });
@@ -72,6 +64,15 @@ export abstract class DoorContents extends ex.ScreenElement {
       return;
     }
     this.isTooltipEnabled = value;
+  }
+
+  public setIsHovered(engine: ex.Engine, val: boolean): void {
+    console.log("setting", val);
+    if (val) {
+      if (this.tooltip && this.isTooltipEnabled) engine.add(this.tooltip);
+    } else {
+      if (this.tooltip) engine.remove(this.tooltip);
+    }
   }
 
   abstract onOpen(engine: ex.Engine): void;

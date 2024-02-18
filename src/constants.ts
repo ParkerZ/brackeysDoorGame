@@ -26,26 +26,28 @@ export const HURT_VOLUME = 0.2;
 export const COIN_VOLUME = 0.6;
 export const HEAL_VOLUME = 0.4;
 export const STEPS_VOLUME = 0.5;
+export const LOSE_VOLUME = 0.5;
 
+export const SHOP_TOOLTIP = "Shop";
 export const KEY_TOOLTIP = "Rusty Key:\nAllows you to open 1 locked door.";
 export const ESCAPE_LADDER_TOOLTIP = "Escape Ladder:\nUse to ascend.";
 export const SHIELD_TOOLTIP = "Shield:\nBlocks all of next attack.";
 export const METAL_DETECTOR_TOOLTIP =
-  "Metal Detector:\nUse to find all coins on floor.";
+  "Treasure Map:\nUse to find all coins on floor.";
 export const LIVING_SHIELD_TOOLTIP =
-  "Stair Shield:\nGrants 1 shield each time you ascend.";
+  "Warrior's Helm:\nGrants 1 shield each time you ascend.";
 export const DOOR_OPENER_TOOLTIP =
   "Crowbar:\nOpens 1 random door every time you ascend.";
 export const PIGGY_BANK_TOOLTIP =
-  "Piggy Bank:\nReplace empty doors with coins.";
+  "Coin Chest:\nReplace empty doors with coins.";
 export const DEATH_GRIP_TOOLTIP =
-  "Death Grip:\nReveal 1 enemy every time you ascend.";
+  "War Horn:\nReveal 1 enemy every time you ascend.";
 export const SPYGLASS_TOOLTIP =
-  "Spyglass:\nReveal the first door you would open each floor.";
+  "Waxen Flame:\nReveal the first door you would open each floor.";
 export const EXTRA_LIFE_TOOLTIP =
-  "Reincarnation Potion:\nRevive at full health next time you would die.";
+  "Elixir of Vitality:\nRevive at full health next time you would die.";
 export const LOCK_PICK_TOOLTIP =
-  "Lock Pick:\nOpens locked doors without Rusty Keys.";
+  "Skeleton Key:\nOpens locked doors without Rusty Keys.";
 
 export const DOOR_LAYOUTS = [
   [ex.vec(0, 0)],

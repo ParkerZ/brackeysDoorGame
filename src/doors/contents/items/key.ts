@@ -2,7 +2,6 @@ import * as ex from "excalibur";
 import { keySprite } from "../../../resources";
 import { GetKeyEvent } from "../../../events";
 import { DoorContents } from "../doorContents";
-import { DisplayText } from "../../../ui/displayText";
 import { KEY_TOOLTIP } from "../../../constants";
 
 export class Key extends DoorContents {
@@ -15,7 +14,9 @@ export class Key extends DoorContents {
   }
 
   onEnter(engine: ex.Engine): void {
+    this.setIsTooltipEnabled(false);
     engine.emit(this.event.type, this.event);
+    this.setIsHovered(engine, false);
     this.kill();
   }
 }

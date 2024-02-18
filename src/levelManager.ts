@@ -26,9 +26,12 @@ import { ShopScene } from "./scenes/shopScene";
 import { LoseMenu } from "./scenes/loseMenu";
 import { LevelOptions } from "./scenes/gameScene";
 import { DisableDoorsEvent } from "./events";
+import { Resources } from "./resources";
 
 export class LevelManager extends ex.Actor {
   private levelId: number = 0;
+  // This is to make levels fresh on reload
+  private levelIncrement: number = 0;
   private winThreshold: number = 20;
   private player: Player;
 
@@ -106,13 +109,21 @@ export class LevelManager extends ex.Actor {
     return level;
   }
 
+  public loadFirstLevel(engine: ex.Engine): void {
+    this.levelId = 0;
+    this.loadNextLevel(engine);
+  }
+
   public loadNextLevel(engine: ex.Engine): void {
     if (this.levelId === this.winThreshold) {
+      Resources.sounds.sountrack.pause();
+      Resources.sounds.win.play();
+
       this.loadWinMenu(engine);
       return;
     }
 
-    const levelLabel = `L${++this.levelId}`;
+    const levelLabel = `L${++this.levelId}${++this.levelIncrement}`;
     const level = this.createLevel(engine, levelLabel);
 
     engine.add(levelLabel, {
@@ -139,8 +150,9 @@ export class LevelManager extends ex.Actor {
 
     const winMenu = new WinMenu();
     this.levelId = 0;
+    const winLabel = `win${this.levelIncrement}`;
 
-    engine.add("win", {
+    engine.add(winLabel, {
       scene: winMenu,
       transitions: {
         in: new ex.FadeInOut({
@@ -148,16 +160,22 @@ export class LevelManager extends ex.Actor {
           direction: "in",
           color: ex.Color.Black,
         }),
+        out: new ex.FadeInOut({
+          duration: SCENE_TRANSITION_DURATION,
+          direction: "out",
+          color: ex.Color.Black,
+        }),
       },
     });
-    engine.goto("win");
+    engine.goto(winLabel);
   }
 
   public loadLoseMenu(engine: ex.Engine): void {
     const loseMenu = new LoseMenu();
     this.levelId = 0;
+    const loseLabel = `lose${++this.levelIncrement}`;
 
-    engine.add("lose", {
+    engine.add(loseLabel, {
       scene: loseMenu,
       transitions: {
         in: new ex.FadeInOut({
@@ -165,15 +183,19 @@ export class LevelManager extends ex.Actor {
           direction: "in",
           color: ex.Color.Black,
         }),
+        out: new ex.FadeInOut({
+          duration: SCENE_TRANSITION_DURATION,
+          direction: "out",
+          color: ex.Color.Black,
+        }),
       },
     });
-    engine.goto("lose");
+    engine.goto(loseLabel);
   }
 
   public loadShop(engine: ex.Engine): void {
-    // TODO: don't instantiate new shop everytime
     const shopScene = new ShopScene(this.buildLevelOptions(), this.player);
-    const shopLabel = `shop${this.levelId}`;
+    const shopLabel = `shop${this.levelId}${++this.levelIncrement}`;
 
     engine.add(shopLabel, {
       scene: shopScene,
