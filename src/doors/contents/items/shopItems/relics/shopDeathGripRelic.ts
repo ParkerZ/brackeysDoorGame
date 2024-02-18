@@ -1,11 +1,11 @@
 import * as ex from "excalibur";
 import { Player } from "../../../../../player";
-import { boneFingerSprite } from "../../../../../resources";
+import { warHornSprite } from "../../../../../resources";
 import { DEATH_GRIP_TOOLTIP } from "../../../../../constants";
 import { ShopRelic } from "./shopRelic";
 
 export class ShopDeathGripRelic extends ShopRelic {
   constructor(player: Player) {
-    super("deathgrip", boneFingerSprite, 6, player, DEATH_GRIP_TOOLTIP);
+    super("deathgrip", warHornSprite, 6, player, DEATH_GRIP_TOOLTIP);
   }
 }

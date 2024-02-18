@@ -2,12 +2,24 @@ import * as ex from "excalibur";
 
 export const SCENE_TRANSITION_DURATION = 500;
 
-export const INVENTORY_ITEM_OFFSET = 20;
-export const INVENTORY_ITEM_SPACING = 60;
+export const INVENTORY_ITEM_OFFSET = 5;
+export const INVENTORY_ITEM_SPACING = 80;
 export const INVENTORY_ITEM_PLACEMENT_MS = 25;
 
 export const DOOR_WIDTH = 100;
 export const DOOR_WIDTH_WITH_MARGIN = 150;
+export const DOOR_SPRITE_SCALE = ex.vec(0.2, 0.2);
+export const DOOR_COLLIDER_WIDTH = 90;
+export const DOOR_COLLIDER_HEIGHT = 140;
+export const DOOR_SPRITE_OFFSET_X = -55;
+export const DOOR_SPRITE_OFFSET_Y = -30;
+export const DOOR_ROW_OFFET_Y = 0;
+
+export const DOOR_CONTENTS_SPRITE_SCALE = ex.vec(0.3, 0.3);
+export const DOOR_CONTENTS_SPRITE_OFFSET_X = -30;
+export const DOOR_CONTENTS_SPRITE_OFFSET_Y = -5;
+
+export const UI_ICONS_SPRITE_SCALE = ex.vec(0.2, 0.2);
 
 export const SOUNDTRACK_VOLUME = 0.3;
 export const HURT_VOLUME = 0.2;

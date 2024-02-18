@@ -1,7 +1,14 @@
 import * as ex from "excalibur";
 import { Player } from "../../../../player";
 import { GameEvent } from "../../../../events";
-import { DOOR_WIDTH } from "../../../../constants";
+import {
+  DOOR_COLLIDER_HEIGHT,
+  DOOR_COLLIDER_WIDTH,
+  DOOR_CONTENTS_SPRITE_OFFSET_X,
+  DOOR_CONTENTS_SPRITE_OFFSET_Y,
+  DOOR_WIDTH,
+  UI_ICONS_SPRITE_SCALE,
+} from "../../../../constants";
 import { coinSprite } from "../../../../resources";
 import { DisplayText } from "../../../../ui/displayText";
 
@@ -20,13 +27,20 @@ export class ShopItem extends ex.ScreenElement {
     tooltip?: string
   ) {
     super({
-      collider: ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half),
+      collider: ex.Shape.Box(
+        DOOR_COLLIDER_WIDTH,
+        DOOR_COLLIDER_HEIGHT + 35,
+        ex.Vector.Zero
+      ),
     });
 
     this.event = event;
     this.sprite = sprite;
     this.cost = cost;
     this.player = player;
+
+    this.pointer.useColliderShape = true;
+    this.pointer.useGraphicsBounds = false;
 
     if (tooltip) {
       this.tooltip = new DisplayText(0, 0, tooltip);
@@ -36,19 +50,27 @@ export class ShopItem extends ex.ScreenElement {
   onInitialize(engine: ex.Engine<any>): void {
     const text = new ex.Text({
       text: `${this.cost}`,
-      font: new ex.Font({ size: 36, family: "verdana" }),
+      font: new ex.Font({
+        size: 48,
+        family: "Bit Fantasy",
+        textAlign: ex.TextAlign.Left,
+      }),
       color: ex.Color.White,
     });
 
     const coin = coinSprite.clone();
-    coin.scale = ex.vec(0.5, 0.5);
+    coin.scale = UI_ICONS_SPRITE_SCALE;
 
-    this.graphics.show(this.sprite);
-    this.graphics.show(text, { offset: ex.vec(20, 150) });
-    this.graphics.show(coin, { offset: ex.vec(40, 105) });
+    this.graphics.show(this.sprite, {
+      offset: ex.vec(
+        DOOR_CONTENTS_SPRITE_OFFSET_X,
+        DOOR_CONTENTS_SPRITE_OFFSET_Y
+      ),
+    });
+    this.graphics.show(text, { offset: ex.vec(15, 163) });
+    this.graphics.show(coin, { offset: ex.vec(15, 102) });
 
     this.on("pointerdown", () => {
-      console.log("Can I buy?", this.player.getCoins(), this.cost);
       if (this.player.getCoins() < this.cost) {
         return;
       }

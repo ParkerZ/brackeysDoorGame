@@ -1,5 +1,10 @@
 import * as ex from "excalibur";
 import { DisplayText } from "../displayText";
+import {
+  DOOR_CONTENTS_SPRITE_OFFSET_X,
+  DOOR_CONTENTS_SPRITE_OFFSET_Y,
+  UI_ICONS_SPRITE_SCALE,
+} from "../../constants";
 
 export class UIIcon extends ex.ScreenElement {
   private sprite: ex.Sprite;
@@ -14,7 +19,7 @@ export class UIIcon extends ex.ScreenElement {
     });
 
     this.sprite = sprite.clone();
-    this.sprite.scale = ex.Vector.Half;
+    this.sprite.scale = UI_ICONS_SPRITE_SCALE;
 
     if (tooltip) {
       this.tooltip = new DisplayText(0, 0, tooltip, "right");
@@ -24,18 +29,26 @@ export class UIIcon extends ex.ScreenElement {
   private updateDisplay(): void {
     this.graphics.hide();
 
-    this.graphics.show(this.sprite);
+    this.graphics.show(this.sprite, {
+      offset: ex.vec(
+        DOOR_CONTENTS_SPRITE_OFFSET_X / 2,
+        DOOR_CONTENTS_SPRITE_OFFSET_Y / 2
+      ),
+    });
 
     if (!this.showValue) {
       return;
     }
     const text = new ex.Text({
       text: `${this.value}`,
-      font: new ex.Font({ size: 24, family: "verdana" }),
+      font: new ex.Font({
+        size: 24,
+        family: "Bit Fantasy",
+      }),
       color: ex.Color.White,
     });
 
-    this.graphics.show(text, { offset: ex.vec(40, 50) });
+    this.graphics.show(text, { offset: ex.vec(60, 75) });
   }
 
   onInitialize(engine: ex.Engine): void {

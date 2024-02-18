@@ -1,6 +1,11 @@
 import * as ex from "excalibur";
 import { shieldSprite } from "../../resources";
-import { INVENTORY_ITEM_SPACING } from "../../constants";
+import {
+  DOOR_CONTENTS_SPRITE_OFFSET_X,
+  DOOR_CONTENTS_SPRITE_OFFSET_Y,
+  INVENTORY_ITEM_SPACING,
+  UI_ICONS_SPRITE_SCALE,
+} from "../../constants";
 
 export class ShieldBar extends ex.ScreenElement {
   private currShields: number;
@@ -22,11 +27,13 @@ export class ShieldBar extends ex.ScreenElement {
 
     const barWidth = Math.max(this.currShields, 3);
     sprites.forEach((sprite, i) => {
-      sprite.scale = ex.Vector.Half;
+      sprite.scale = UI_ICONS_SPRITE_SCALE;
       this.graphics.show(sprite, {
         offset: ex.vec(
-          (-INVENTORY_ITEM_SPACING * barWidth) / 2 + INVENTORY_ITEM_SPACING * i,
-          0
+          (-INVENTORY_ITEM_SPACING * barWidth) / 2 +
+            INVENTORY_ITEM_SPACING * i +
+            DOOR_CONTENTS_SPRITE_OFFSET_X / 2,
+          DOOR_CONTENTS_SPRITE_OFFSET_Y / 2
         ),
       });
     });

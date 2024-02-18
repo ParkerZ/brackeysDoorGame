@@ -16,7 +16,8 @@ export type EventType =
   | "getrelic"
   | "usespyglass"
   | "playerdie"
-  | "unlockdoor";
+  | "unlockdoor"
+  | "disabledoors";
 
 export class LoadNextLevelEvent {
   public type: EventType = "loadnextlevel";
@@ -123,6 +124,12 @@ export class UnlockDoorEvent {
   constructor() {}
 }
 
+export class DisableDoorsEvent {
+  public type: EventType = "disabledoors";
+
+  constructor() {}
+}
+
 export type GameEvent =
   | LoadNextLevelEvent
   | LoadShopEvent
@@ -137,4 +144,5 @@ export type GameEvent =
   | GetRelicEvent
   | UseSpyglassEvent
   | PlayerDieEvent
-  | UnlockDoorEvent;
+  | UnlockDoorEvent
+  | DisableDoorsEvent;

@@ -1,6 +1,11 @@
 import * as ex from "excalibur";
 import { heartEmptySprite, heartSprite } from "../../resources";
-import { INVENTORY_ITEM_SPACING } from "../../constants";
+import {
+  DOOR_CONTENTS_SPRITE_OFFSET_X,
+  DOOR_CONTENTS_SPRITE_OFFSET_Y,
+  INVENTORY_ITEM_SPACING,
+  UI_ICONS_SPRITE_SCALE,
+} from "../../constants";
 
 export class HealthBar extends ex.ScreenElement {
   private maxHearts: number;
@@ -25,12 +30,13 @@ export class HealthBar extends ex.ScreenElement {
       );
 
     sprites.forEach((sprite, i) => {
-      sprite.scale = ex.Vector.Half;
+      sprite.scale = UI_ICONS_SPRITE_SCALE;
       this.graphics.show(sprite, {
         offset: ex.vec(
           (-INVENTORY_ITEM_SPACING * this.maxHearts) / 2 +
-            INVENTORY_ITEM_SPACING * i,
-          0
+            INVENTORY_ITEM_SPACING * i +
+            DOOR_CONTENTS_SPRITE_OFFSET_X / 2,
+          DOOR_CONTENTS_SPRITE_OFFSET_Y / 2
         ),
       });
     });

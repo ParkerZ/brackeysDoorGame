@@ -25,6 +25,7 @@ import { SCENE_TRANSITION_DURATION } from "./constants";
 import { ShopScene } from "./scenes/shopScene";
 import { LoseMenu } from "./scenes/loseMenu";
 import { LevelOptions } from "./scenes/gameScene";
+import { DisableDoorsEvent } from "./events";
 
 export class LevelManager extends ex.Actor {
   private levelId: number = 0;
@@ -114,7 +115,6 @@ export class LevelManager extends ex.Actor {
     const levelLabel = `L${++this.levelId}`;
     const level = this.createLevel(engine, levelLabel);
 
-    console.log("loading level:", levelLabel);
     engine.add(levelLabel, {
       scene: level,
       transitions: {
@@ -134,6 +134,9 @@ export class LevelManager extends ex.Actor {
   }
 
   private loadWinMenu(engine: ex.Engine): void {
+    const event = new DisableDoorsEvent();
+    engine.emit(event.type, event);
+
     const winMenu = new WinMenu();
     this.levelId = 0;
 

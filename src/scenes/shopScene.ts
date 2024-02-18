@@ -2,7 +2,13 @@ import * as ex from "excalibur";
 import { selectRandom, shuffleArray } from "../util";
 import { StairsNextLevel } from "../doors/contents/stairsNextLevel";
 import { Door } from "../doors/door";
-import { DOOR_WIDTH_WITH_MARGIN } from "../constants";
+import {
+  DOOR_COLLIDER_HEIGHT,
+  DOOR_ROW_OFFET_Y,
+  DOOR_SPRITE_OFFSET_Y,
+  DOOR_WIDTH,
+  DOOR_WIDTH_WITH_MARGIN,
+} from "../constants";
 import { backgroundLevelSprite } from "../resources";
 import { Player } from "../player";
 import { ShopHealthPotion } from "../doors/contents/items/shopItems/shopHealthPotion";
@@ -54,8 +60,8 @@ export class ShopScene extends GameScene {
     shopItems.forEach((ShopItem, i) => {
       const newItem = new ShopItem(this.player);
       newItem.setPos(
-        engine.halfDrawWidth + (i - 2) * DOOR_WIDTH_WITH_MARGIN,
-        engine.halfDrawHeight - 25
+        engine.halfDrawWidth + (i - 2) * DOOR_WIDTH_WITH_MARGIN + 20,
+        engine.halfDrawHeight
       );
 
       engine.add(newItem);

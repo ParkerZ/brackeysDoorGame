@@ -1,12 +1,11 @@
 import * as ex from "excalibur";
-import { enemySprite } from "../../../resources";
 import { DoorContents } from "../doorContents";
 import { TakeDamageEvent } from "../../../events";
 
 export class EnemyBase extends DoorContents {
   protected isOpenableByRelic = false;
 
-  constructor(damage: number, sprite: ex.Sprite) {
+  constructor(damage: number, sprite: ex.Graphic) {
     super(new TakeDamageEvent(damage), sprite);
   }
 

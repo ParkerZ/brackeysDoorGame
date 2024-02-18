@@ -1,27 +1,34 @@
 import * as ex from "excalibur";
 import {
   Resources,
+  doorBackingSprite,
   doorClosedSprite,
   doorOpenSprite,
+  doorOpeningAnimation,
   doorRevealSprite,
 } from "../resources";
 import {
   DoorContents,
   InstantiableDoorContents,
 } from "./contents/doorContents";
-import { DOOR_WIDTH } from "../constants";
+import {
+  DOOR_COLLIDER_HEIGHT,
+  DOOR_COLLIDER_WIDTH,
+  DOOR_SPRITE_OFFSET_X,
+  DOOR_SPRITE_OFFSET_Y,
+  DOOR_WIDTH,
+} from "../constants";
 import { UseSpyglassEvent } from "../events";
 import { selectRandom } from "../util";
 
-const collider = ex.Shape.Box(DOOR_WIDTH, DOOR_WIDTH, ex.Vector.Half);
+type DoorState = "closed" | "open" | "reveal" | "disabled" | "locked";
 
 export class Door extends ex.ScreenElement {
   private contents;
-  private isOpen = false;
-  private isRevealed = false;
   private shouldReveal = false;
-  private isDisabled = false;
 
+  protected state: DoorState = "closed";
+  protected doorBackingSprite = doorBackingSprite;
   protected doorClosedSprite = doorClosedSprite;
   protected doorRevealSprite = doorRevealSprite;
   protected doorOpenSprite = doorOpenSprite;
@@ -29,8 +36,15 @@ export class Door extends ex.ScreenElement {
   constructor(Contents?: InstantiableDoorContents<DoorContents>) {
     super({
       z: 2,
-      collider,
+      collider: ex.Shape.Box(
+        DOOR_COLLIDER_WIDTH,
+        DOOR_COLLIDER_HEIGHT,
+        ex.Vector.Zero
+      ),
     });
+
+    this.pointer.useColliderShape = true;
+    this.pointer.useGraphicsBounds = false;
 
     if (Contents) this.contents = new Contents();
   }
@@ -41,21 +55,27 @@ export class Door extends ex.ScreenElement {
   }
 
   onInitialize(engine: ex.Engine): void {
-    if (!this.isOpen && !this.isRevealed) {
-      this.graphics.use(this.doorClosedSprite);
+    const backing = new ex.ScreenElement({ pos: this.pos, z: 0 });
+    backing.graphics.show(this.doorBackingSprite, {
+      offset: ex.vec(DOOR_SPRITE_OFFSET_X, DOOR_SPRITE_OFFSET_Y),
+    });
+    engine.add(backing);
+
+    if (this.state === "closed") {
+      this.updateGraphics(this.doorClosedSprite);
     }
 
     this.on("pointerdown", () => {
-      if (this.isDisabled) return;
+      if (this.state === "disabled") return;
 
-      if (this.shouldReveal && !this.isOpen) {
+      if (this.shouldReveal && this.state !== "open") {
         const event = new UseSpyglassEvent();
         engine.emit(event.type, event);
         this.onReveal();
         return;
       }
 
-      if (!this.isOpen) {
+      if (this.state !== "open") {
         this.onOpen(engine);
         return;
       }
@@ -66,6 +86,12 @@ export class Door extends ex.ScreenElement {
     if (this.contents) {
       engine.add(this.contents);
     }
+  }
+
+  protected updateGraphics(sprite: ex.Graphic) {
+    this.graphics.use(sprite, {
+      offset: ex.vec(DOOR_SPRITE_OFFSET_X, DOOR_SPRITE_OFFSET_Y),
+    });
   }
 
   public getContents() {
@@ -80,32 +106,38 @@ export class Door extends ex.ScreenElement {
     this.shouldReveal = value;
   }
 
-  public setIsDisabled(val: boolean) {
-    this.isDisabled = val;
+  public disable() {
+    this.state = "disabled";
   }
 
   public onReveal(): void {
     Resources.sounds.reveal.play();
-    this.isRevealed = true;
-    this.graphics.use(this.doorRevealSprite);
+    this.state = "reveal";
+    this.shouldReveal = false;
+    this.updateGraphics(this.doorRevealSprite);
   }
 
   onOpen(engine: ex.Engine): void {
-    this.isOpen = true;
+    this.state = "disabled";
     this.playOpenDoorSound();
 
     setTimeout(() => {
-      this.graphics.use(this.doorOpenSprite);
+      this.updateGraphics(doorOpeningAnimation);
 
-      if (this.contents) {
-        engine.add(this.contents);
-        this.contents.onOpen(engine);
-      }
-    }, 100);
+      setTimeout(() => {
+        this.updateGraphics(this.doorOpenSprite);
+
+        if (this.contents) {
+          engine.add(this.contents);
+          this.contents.onOpen(engine);
+        }
+
+        this.state = "open";
+      }, 100);
+    }, 50);
   }
 
   onEnter(engine: ex.Engine): void {
-    console.log("Enter");
     if (!this.contents || this.contents.isKilled()) {
       return;
     }

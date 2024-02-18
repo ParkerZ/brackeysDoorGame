@@ -8,12 +8,16 @@ import {
   Resources,
   doorClosedLockedSprite,
   doorRevealLockedSprite,
+  doorRevealUnlockingSprite,
+  doorUnlockingSprite,
 } from "../resources";
 import { UnlockDoorEvent } from "../events";
 
 export class DoorLocked extends Door {
   protected doorClosedSprite: ex.Sprite = doorClosedLockedSprite;
   protected doorRevealSprite: ex.Sprite = doorRevealLockedSprite;
+  private doorUnlockingSprite: ex.Sprite = doorUnlockingSprite;
+  private doorRevealUnlockingSprite: ex.Sprite = doorRevealUnlockingSprite;
 
   private isUnlockable = false;
 
@@ -26,9 +30,20 @@ export class DoorLocked extends Door {
 
     Resources.sounds.unlock.play();
 
-    const event = new UnlockDoorEvent();
-    engine.emit(event.type, event);
-    super.onOpen(engine);
+    const unlockingGraphic =
+      this.state === "reveal"
+        ? this.doorRevealUnlockingSprite
+        : this.doorUnlockingSprite;
+
+    this.updateGraphics(unlockingGraphic);
+    this.state = "disabled";
+
+    setTimeout(() => {
+      const event = new UnlockDoorEvent();
+      engine.emit(event.type, event);
+      this.state = "locked";
+      super.onOpen(engine);
+    }, 250);
   }
 
   public setIsUnlockable(value: boolean): void {

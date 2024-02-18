@@ -69,7 +69,7 @@ export class Player extends ex.Actor {
     this.shieldBar.setPos(
       ex.vec(
         engine.halfDrawWidth,
-        (engine.halfDrawHeight * 7) / 4 - INVENTORY_ITEM_SPACING
+        (engine.halfDrawHeight * 7) / 4 - INVENTORY_ITEM_SPACING + 20
       )
     );
 
@@ -229,7 +229,6 @@ export class Player extends ex.Actor {
 
   public useMetalDetector(engine: ex.Engine): void {
     this.numMetalDetectors--;
-    console.log(this.numMetalDetectors);
 
     if (this.numMetalDetectors === 0) {
       engine.remove(this.metalDetectorButton);

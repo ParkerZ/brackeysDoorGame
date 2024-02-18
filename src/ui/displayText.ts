@@ -28,14 +28,14 @@ export class DisplayText extends ex.ScreenElement {
       text: this.text,
       font: new ex.Font({
         size: 18,
-        family: "verdana",
+        family: "Bit Fantasy",
         textAlign: ex.TextAlign.Center,
       }),
       color: ex.Color.White,
     });
 
     const innerRect = new ex.Rectangle({
-      width: text.width + 10,
+      width: text.width + 14,
       height: text.height + 10,
       color: ex.Color.Black,
     });
@@ -95,9 +95,9 @@ export class DisplayText extends ex.ScreenElement {
     engine: ex.Engine
   ): ex.Vector {
     if (this.placement === "right") {
-      return ex.vec(width / 2 + INVENTORY_ITEM_SPACING, 30);
+      return ex.vec(width / 2 + INVENTORY_ITEM_SPACING, 26);
     } else {
-      return this.clipOffset(ex.vec(0, -60), height, width, engine);
+      return this.clipOffset(ex.vec(0, -64), height, width, engine);
     }
   }
 
@@ -114,21 +114,14 @@ export class DisplayText extends ex.ScreenElement {
 
     // Keep tooltip on screen horizontally
     if (this.pos.x < width / 2 + margin) {
-      console.log("too left", this.pos.x, width / 2, x);
       x += width / 2 + margin - this.pos.x;
     } else if (width / 2 + this.pos.x + margin > engine.drawWidth) {
-      console.log("too right", this.pos.x, width / 2, x);
       x -= width / 2 + this.pos.x + margin - engine.drawWidth;
-    } else {
-      console.log("horiz good", this.pos.x, this.pos.y, width / 2, x);
     }
-
     // Keep tooltip on screen vertically
     if (this.pos.y < height / 2 + margin) {
-      console.log("too high", this.pos.y, height / 2, y);
       y += height / 2 + margin - this.pos.y;
     } else if (height / 2 + this.pos.y + margin > engine.drawHeight) {
-      console.log("too low", this.pos.y, height / 2, y);
       y -= height / 2 + this.pos.y + margin - engine.drawHeight;
     }
 

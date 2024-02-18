@@ -2,7 +2,14 @@ import * as ex from "excalibur";
 import { backgroundLevelSprite } from "../../resources";
 import { Door } from "../../doors/door";
 import { selectRandom, shuffleArray } from "../../util";
-import { DOOR_LAYOUTS, DOOR_WIDTH } from "../../constants";
+import {
+  DOOR_COLLIDER_HEIGHT,
+  DOOR_LAYOUTS,
+  DOOR_ROW_OFFET_Y,
+  DOOR_SPRITE_OFFSET_X,
+  DOOR_SPRITE_OFFSET_Y,
+  DOOR_WIDTH,
+} from "../../constants";
 import { GetShieldEvent } from "../../events";
 import { Coin1 } from "../../doors/contents/items/coins/coin1";
 import { EnemyBase } from "../../doors/contents/enemy/enemyBase";
@@ -43,17 +50,19 @@ export class Level extends GameScene {
 
     // Doors need to be added before relics
     const doorLayout = DOOR_LAYOUTS[this.layoutIndex];
-    console.log(doorLayout);
     this.doors.forEach((door, i) => {
       // if locked door is empty, add a relic and replace door
-      if (door instanceof DoorLocked && !door.getContents()) {
-        console.log("something is wrong here");
+      if (
+        door instanceof DoorLocked &&
+        !door.getContents() &&
+        this.getAvailableRelics().length
+      ) {
         door.setContents(selectRandom(this.getAvailableRelics()));
       }
 
       door.setPos(
         engine.halfDrawWidth + doorLayout[i].x,
-        engine.halfDrawHeight + doorLayout[i].y
+        engine.halfDrawHeight + doorLayout[i].y + DOOR_ROW_OFFET_Y
       );
       engine.add(door);
 
@@ -68,23 +77,27 @@ export class Level extends GameScene {
 
     this.createMetalDetectorListener(engine);
     this.createKeyListener(engine);
-    this.createDeathListener(engine);
+    this.createDisableListener(engine);
   }
 
   private openRandomDoor(engine: ex.Engine): void {
-    shuffleArray(
-      this.doors.filter(
-        (door) =>
-          !(door instanceof DoorLocked) &&
-          door.getContents()?.getIsOpenableByRelic()
-      )
-    )[0].onOpen(engine);
+    setTimeout(() => {
+      shuffleArray(
+        this.doors.filter(
+          (door) =>
+            !(door instanceof DoorLocked) &&
+            door.getContents()?.getIsOpenableByRelic()
+        )
+      )[0].onOpen(engine);
+    }, 250);
   }
 
   private revealRandomEnemyDoor(): void {
-    shuffleArray(
-      this.doors.filter((door) => door.getContents() instanceof EnemyBase)
-    )[0].onReveal();
+    setTimeout(() => {
+      shuffleArray(
+        this.doors.filter((door) => door.getContents() instanceof EnemyBase)
+      )[0]?.onReveal();
+    }, 250);
   }
 
   private createSpyglassListener(engine: ex.Engine): void {
@@ -109,10 +122,10 @@ export class Level extends GameScene {
     });
   }
 
-  private createDeathListener(engine: ex.Engine): void {
-    engine.on("playerdie", () => {
+  private createDisableListener(engine: ex.Engine): void {
+    engine.on("disabledoors", () => {
       this.doors.forEach((door, i) => {
-        door.setIsDisabled(true);
+        door.disable();
       });
     });
   }
