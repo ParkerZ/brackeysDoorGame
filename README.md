@@ -4,7 +4,7 @@ Brackeys Game Jame - What's behind the door?
 
 ## Playable Demo
 
-Coming soon
+Check out the playable demo on [itch.io](https://farkatdark.itch.io/viginti)
 
 ## Running locally
 
@@ -30,6 +30,7 @@ Coming soon
 - Doors, other relics & items: https://assetstore.unity.com/packages/3d/environments/dungeons/ultimate-low-poly-dungeon-143535
 - Small skeleton: https://sketchfab.com/3d-models/low-poly-skeleton-1eda2e7cf99d4636bc9937db3e6d9d75
 - Big skeleton: https://sketchfab.com/3d-models/skeleton-foot-soldier-animated-be3fe91943624e95b5e2598111dddafa
+- Font: https://opengameart.org/content/the-collection-of-8-bit-fonts-for-grafx2-r2
 
 ### Audio Assets:
 
